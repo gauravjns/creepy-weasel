@@ -1,29 +1,73 @@
 package org.helpiez.api.model;
 
-import java.sql.Date;
+
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Organization {
 	
 	private int id;
 	private String name;    // Registered
-	private int status;		//	
+	private int status;		//	1 created 2 active 3 with head 
 	private Timestamp timestamp;
 	private String logo;
 	private String url;
 	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
-	private String phone;  // Publc phone
-	private String address;  // 
+	private String phone;  // Public phone
+	private String address;  // Main office
+	private String city;
+	private String state;
+	private String pincode;
+	private String weblink;
 	private String email;
 	private String banner;
 	private String googlepage;
 	private String facebookpage;
 	private String twitter;
+	private String instagram;
+	private String view;
 	private Date foundationdate;
 	private String about; // Brief description 
 	private String mission;
 	
 	
+	
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+	public String getWeblink() {
+		return weblink;
+	}
+	public void setWeblink(String weblink) {
+		this.weblink = weblink;
+	}
+	public String getInstagram() {
+		return instagram;
+	}
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
+	}
+	public String getView() {
+		return view;
+	}
+	public void setView(String view) {
+		this.view = view;
+	}
 	public int getId() {
 		return id;
 	}

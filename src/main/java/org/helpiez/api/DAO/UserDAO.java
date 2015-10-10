@@ -2,6 +2,8 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +23,19 @@ public class UserDAO {
 	
 	public User getuserbyid(int id) {
 		User user= new User();
-		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", userMapper, id);
+		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new userMapper(), id);
 		return user;
 	}
 	
 	public User getuserbyemail(String email) {
 		User user= new User();
-		user =jdbc.queryForObject("SELECT * FROM user WHERE useremail=?", userMapper, email);
+		user =jdbc.queryForObject("SELECT * FROM user WHERE useremail=?", new userMapper(), email);
 		return user;
 	}
 	
 	public List<User> getlistofuser() {
 		List<User> ls = new ArrayList<User>();
+		ls= jdbc.query("SELECT * FROM user", new userMapper());
 		return ls;
 	}
 	
@@ -258,12 +261,13 @@ public class UserDAO {
 		 return 1;   
 	  }
 	
-	  public User usermetamapper(User user)
+	  public User usermetamapper(User user) throws ParseException
 	    {
 	    	List<Usermeta> ls= new ArrayList<Usermeta>();
-			ls = jdbc.query("SELECT * FROM usermeta WHERE userid=?", usermetaMapper, user.getId());
+			ls = jdbc.query("SELECT * FROM usermeta WHERE userid=?", new userMetaMapper(), user.getId());
 			for (Usermeta usermeta : ls) {
 				String key= usermeta.getKey();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				if(key.equals("gender"))
 				{
 					user.setGender(usermeta.getValue());
@@ -318,7 +322,7 @@ public class UserDAO {
 				}
 				if(key.equals("birthday"))
 				{
-					//user.setBirthday(Date.(usermeta.getValue());
+					user.setBirthday( formatter.parse(usermeta.getValue()) );
 				
 				}
 			}
@@ -328,13 +332,13 @@ public class UserDAO {
 	
 	  
 	  
-	  
-	  
-	  // Result set mapper
-	  private final RowMapper<User> userMapper = new RowMapper<User>() {
-	        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-	            User user = new User();
+	
+	  // User mapper Implementation  
+	    private class userMapper implements RowMapper<User> {
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User user = new User();
 	            User user2 = new User();
+			try {
 	            user.setId(rs.getInt(1));
 	            user.setEmail(rs.getString(2));
 	            user.setStatus(rs.getInt(5));
@@ -343,12 +347,16 @@ public class UserDAO {
 	            user.setTimestamp(rs.getTimestamp(6));
 	            user.setName(rs.getString("username"));
 	            user2 = usermetamapper(user);
-	            return user2;
-	        }
-	    };
+				} 
+			catch (ParseException e) {
+					e.printStackTrace();
+				}  
+				return user2;
+			}
+		}
 	    
-	    private static final RowMapper<Usermeta> usermetaMapper = new RowMapper<Usermeta>() {
-	        public Usermeta mapRow(ResultSet rs, int rowNum) throws SQLException {
+	    private class userMetaMapper implements RowMapper<Usermeta> {
+			public Usermeta mapRow(ResultSet rs, int rowNum) throws SQLException {
 	            Usermeta usermeta = new Usermeta();
 	            usermeta.setId(rs.getInt(1));
 	            usermeta.setUserid(rs.getInt(2));
@@ -357,6 +365,7 @@ public class UserDAO {
 	            usermeta.setTimestamp(rs.getTimestamp(5));
 	            return usermeta;
 	        }
-	    };
+	    }
+	    
 	
 }
