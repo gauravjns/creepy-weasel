@@ -2,24 +2,25 @@ package org.helpiez.api.model;
 
 import java.sql.Timestamp;
 
-public class Usermeta {
+public class CommonMeta {
 	
 	private int id;
-	private int userid;
+	private int pid;
 	private String Key;
 	private String value;
 	private Timestamp timestamp;
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUserid() {
-		return userid;
+	public int getPid() {
+		return pid;
 	}
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setPid(int pid) {
+		this.pid = pid;
 	}
 	public String getKey() {
 		return Key;
@@ -39,7 +40,5 @@ public class Usermeta {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	
-	
 
 }

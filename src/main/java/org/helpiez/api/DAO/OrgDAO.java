@@ -7,8 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.helpiez.api.model.Groupmeta;
+import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -272,10 +271,10 @@ public class OrgDAO {
 		  
 	 public Organization orgmetamapper(Organization organization) throws ParseException
 	    {
-	    	List<Groupmeta> ls= new ArrayList<Groupmeta>();
+	    	List<CommonMeta> ls= new ArrayList<CommonMeta>();
 	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			ls = jdbc.query("SELECT * FROM groupmeta WHERE groupid=?", new groupMetaMapper(), organization.getId());
-			for (Groupmeta groupmeta : ls) {
+			for (CommonMeta groupmeta : ls) {
 				String key= groupmeta.getKey();
 				if(key.equals("email"))
 				{
@@ -370,11 +369,11 @@ public class OrgDAO {
 	        }
 	    }
 	    
-	   private class groupMetaMapper implements RowMapper<Groupmeta> {
-			public Groupmeta mapRow(ResultSet rs, int rowNum) throws SQLException {
-	        	Groupmeta groupmeta= new Groupmeta();
+	   private class groupMetaMapper implements RowMapper<CommonMeta> {
+			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CommonMeta groupmeta= new CommonMeta();
 	        	groupmeta.setId(rs.getInt(1));
-	        	groupmeta.setOrgid(rs.getInt(2));
+	        	groupmeta.setPid(rs.getInt(2));
 	        	groupmeta.setKey(rs.getString(3));
 	        	groupmeta.setValue(rs.getString(4));
 	        	groupmeta.setTimestamp(rs.getTimestamp(5));

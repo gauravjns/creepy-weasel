@@ -7,8 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.User;
-import org.helpiez.api.model.Usermeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -263,9 +263,9 @@ public class UserDAO {
 	
 	  public User usermetamapper(User user) throws ParseException
 	    {
-	    	List<Usermeta> ls= new ArrayList<Usermeta>();
+	    	List<CommonMeta> ls= new ArrayList<CommonMeta>();
 			ls = jdbc.query("SELECT * FROM usermeta WHERE userid=?", new userMetaMapper(), user.getId());
-			for (Usermeta usermeta : ls) {
+			for (CommonMeta usermeta : ls) {
 				String key= usermeta.getKey();
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				if(key.equals("gender"))
@@ -355,11 +355,11 @@ public class UserDAO {
 			}
 		}
 	    
-	    private class userMetaMapper implements RowMapper<Usermeta> {
-			public Usermeta mapRow(ResultSet rs, int rowNum) throws SQLException {
-	            Usermeta usermeta = new Usermeta();
+	    private class userMetaMapper implements RowMapper<CommonMeta> {
+			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CommonMeta usermeta = new CommonMeta();
 	            usermeta.setId(rs.getInt(1));
-	            usermeta.setUserid(rs.getInt(2));
+	            usermeta.setPid(rs.getInt(2));
 	            usermeta.setKey(rs.getString(3));
 	            usermeta.setValue(rs.getString(4));
 	            usermeta.setTimestamp(rs.getTimestamp(5));
