@@ -2,7 +2,7 @@ package org.helpiez.api.model;
 
 import java.sql.Timestamp;
 
-// Internship, Volunteering, Jobs, Events,    
+// Internship, Volunteering, Jobs, Ongroud Events, survey    
 public class Events extends Post
 {
 
@@ -15,9 +15,13 @@ public class Events extends Post
 	private String duration ;
 	private String schedule;
 	private String image;
-	private int virtual;  // Full time , part time, virtual , 
-	private int certificate; // postid for certification
+	private String virtual;  // Full time , part time, virtual , 
+	private String certificate; // postid for certification
 	private Timestamp deadline;
+//	private String question;// (question, type, qmeta) 
+//	private String commentstatus; 
+//	private String postparent;
+//  private String nu_question;	// number of question 
 	
 	public String getRequired() {
 		return required;
@@ -73,16 +77,16 @@ public class Events extends Post
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public int getVirtual() {
+	public String getVirtual() {
 		return virtual;
 	}
-	public void setVirtual(int virtual) {
+	public void setVirtual(String virtual) {
 		this.virtual = virtual;
 	}
-	public int getCertificate() {
+	public String getCertificate() {
 		return certificate;
 	}
-	public void setCertificate(int certificate) {
+	public void setCertificate(String certificate) {
 		this.certificate = certificate;
 	}
 	public Timestamp getDeadline() {

@@ -4,6 +4,7 @@ package org.helpiez.api.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+// NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
 public class Organization {
 	
 	private int id;

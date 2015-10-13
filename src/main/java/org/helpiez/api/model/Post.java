@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Post {
 	private int id;
-	private String name; // 2000 words
+	private String name; // 5000 words Title in blog
 	private String type;
 	private String extra;
 	private int status;

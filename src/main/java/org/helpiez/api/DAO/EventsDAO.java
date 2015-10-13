@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Events;
-import org.helpiez.api.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -46,7 +45,7 @@ public class EventsDAO {
 	
 	Number id = insert.executeAndReturnKey(insertParameters);
 	System.out.println(id);
-	int check2= insertupdate(event,id);
+	int check2= insertupdate(event,getEventbyID(id.intValue()));
 	if (check2==1)
 	{
 	return true;
@@ -54,15 +53,191 @@ public class EventsDAO {
 	else {return false;}
 	}
 	
-	private int insertupdate(Events event, Number id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Boolean update(Events event, Events event2) {
+		if(event.getName()!=null)
+		{
+			event2.setName(event.getName());
+		}
+		if(event.getType()!=null)
+		{
+			event2.setType(event.getType());	
+		}
+		
+		if(event.getStatus()!=0)
+		{
+			event2.setStatus(event.getStatus());
+			
+		}
+		if(event.getUrl()!=null)
+		{
+			event2.setUrl(event.getUrl());
+		}
+		if(event.getGroupid()!=null)
+		{
+			event2.setGroupid(event.getGroupid());
+		}
+		if(event.getExtra()!=null)
+		{
+			event2.setExtra(event.getExtra());
+		}
+		
+		int check =jdbc.update("UPDATE posts SET postname=?, poststatus=? ,posttype=?, posturl=?, postxtra=?, postgroupid=? WHERE postid =? ",event2.getName(), event2.getStatus(), event2.getType(), event2.getUrl(), event2.getExtra(), event2.getGroupid(),  event2.getId());
+	
+		int check2 = insertupdate(event, event2);
+		
+		if (check ==1 && check2==1)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private int insertupdate(Events event,  Events event2update) {
+		if(event.getCertificate()!=null)
+		 {
+			 if(event2update.getCertificate()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getCertificate(), event2update.getId(), "certificate" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "certificate" , event.getCertificate() );
+				
+			 }
+		 } 
+		
+		if(event.getDeadline()!=null)
+		 {
+			 if(event2update.getDeadline()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getDeadline(), event2update.getId(), "deadline" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "deadline" , event.getDeadline() );
+			 }
+		 }
+		if(event.getDescription()!=null)
+		 {
+			 if(event2update.getDescription()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getDescription(), event2update.getId(), "description" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "description" , event.getDescription() );
+			 }
+		 }
+		if(event.getDuration()!=null)
+		 {
+			 if(event2update.getDuration()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getDuration(), event2update.getId(), "duration" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "duration" , event.getDuration() );
+			 }
+		 }
+		if(event.getEmail()!=null)
+		 {
+			 if(event2update.getEmail()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getEmail(), event2update.getId(), "email" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "email" , event.getEmail() );
+			 }
+		 }
+		if(event.getImage()!=null)
+		 {
+			 if(event2update.getImage()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getImage(), event2update.getId(), "image" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "image" , event.getImage() );
+			 }
+		 }
+		if(event.getLocation()!=null)
+		 {
+			 if(event2update.getLocation()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getLocation(), event2update.getId(), "location" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "location" , event.getLocation() );
+			 }
+		 }
+		if(event.getQualification()!=null)
+		 {
+			 if(event2update.getQualification()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getQualification(), event2update.getId(), "qualification" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "qualification" , event.getQualification() );
+			 }
+		 }
+		if(event.getRequired()!=null)
+		 {
+			 if(event2update.getRequired()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getRequired(), event2update.getId(), "required" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "required" , event.getRequired() );
+			 }
+		 }
+		
+		if(event.getSalary()!=null)
+		 {
+			 if(event2update.getSalary()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getSalary(), event2update.getId(), "salary" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "salary" , event.getSalary() );
+			 }
+		 }
+		if(event.getSchedule()!=null)
+		 {
+			 if(event2update.getSchedule()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getSchedule(), event2update.getId(), "schedule" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "schedule" , event.getSchedule() );
+			 }
+		 }
+		if(event.getVirtual()!=null)
+		 {
+			 if(event2update.getVirtual()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getVirtual(), event2update.getId(), "virtual" );
+					 
+			 }else{
+				
+					 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "virtual" , event.getVirtual() );
+				 }	
+		 }
+		
+		return 1;
 	}
 	public Events eventmetamapper(Events event) throws ParseException
 	    {
 	    	List<CommonMeta> ls= new ArrayList<CommonMeta>();
-	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");			
 	    	ls = jdbc.query("SELECT * FROM postmeta WHERE postid=?", new eventMetaMapper(), event.getId());
 			for (CommonMeta groupmeta : ls) {
 				String key= groupmeta.getKey();
@@ -104,11 +279,11 @@ public class EventsDAO {
 				}
 				if(key.equals("virtual"))
 				{
-					event.setVirtual(Integer.parseInt(groupmeta.getValue()));
+					event.setVirtual(groupmeta.getValue());
 				}
 				if(key.equals("certificate"))
 				{
-					event.setCertificate(Integer.parseInt(groupmeta.getValue()));
+					event.setCertificate(groupmeta.getValue());
 				}
 				if(key.equals("deadline"))
 				{
@@ -153,10 +328,7 @@ public class EventsDAO {
 	        }
 	    }
 
-	public Boolean update(Events event, Events event2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 }
