@@ -9,6 +9,9 @@ public class Story extends Post {
 	private String featuredimage;
 	private String commentstatus;
 	private String postparent;
+	private Storymeta blog;
+	
+	
 	
 	public String getAuthorid() {
 		return authorid;
@@ -45,6 +48,12 @@ public class Story extends Post {
 	}
 	public void setPostparent(String postparent) {
 		this.postparent = postparent;
+	}
+	public Storymeta getBlog() {
+		return blog;
+	}
+	public void setBlog(Storymeta blog) {
+		this.blog = blog;
 	}
 	
 }
