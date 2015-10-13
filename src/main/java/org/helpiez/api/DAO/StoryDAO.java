@@ -11,8 +11,8 @@ import java.util.List;
 
 
 import org.helpiez.api.model.CommonMeta;
-import org.helpiez.api.model.Events;
 import org.helpiez.api.model.Story;
+import org.helpiez.api.model.Storymeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,7 +43,31 @@ public class StoryDAO {
 			{
 				story.setAuthorid(groupmeta.getValue());
 			}
+			if(key.equals("blogid"))
+			{
+				story.setBlogid(groupmeta.getValue());
+			}
+			if(key.equals("excerpt"))
+			{
+				story.setExcerpt(groupmeta.getValue());
+			}
+			if(key.equals("featuredimage"))
+			{
+				story.setFeaturedimage(groupmeta.getValue());
+			}
+			if(key.equals("commentstatus"))
+			{
+				story.setCommentstatus(groupmeta.getValue());
+			}
+			if(key.equals("postparent"))
+			{
+				story.setPostparent(groupmeta.getValue());
+			}
+			
 		}
+		Storymeta storymeta = new Storymeta();
+		storymeta =jdbc.queryForObject("SELECT * FROM blogmeta WHERE blogid=? and postid=?", new blogMapper(), story.getBlogid(), story.getId());
+		story.setBlog(storymeta);
 		return story;
 	}
 	
@@ -80,6 +104,19 @@ public class StoryDAO {
 	        	eventmeta.setValue(rs.getString(4));
 	        	eventmeta.setTimestamp(rs.getTimestamp(5));
 	            return eventmeta;
+	        }
+	    }
+	   
+	   private class blogMapper implements RowMapper<Storymeta> {
+			public Storymeta mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Storymeta storymeta= new Storymeta();
+	        	storymeta.setBlogid(rs.getLong(1));
+	        	storymeta.setPostid(rs.getLong(2));
+	        	storymeta.setContent(rs.getString(3));
+	        	storymeta.setUserid(rs.getInt(4));
+	        	storymeta.setTimestamp(rs.getTimestamp(5));
+	        	storymeta.setBlogxtra(rs.getString(6));
+	            return storymeta;
 	        }
 	    }
 

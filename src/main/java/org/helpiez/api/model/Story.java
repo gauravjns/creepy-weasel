@@ -3,7 +3,7 @@ package org.helpiez.api.model;
 //Article, Long Text etc 
 public class Story extends Post {
 	
-	private String authorid;
+	private String authorid; // story author 
 	private String blogid;
 	private String excerpt;
 	private String featuredimage;
