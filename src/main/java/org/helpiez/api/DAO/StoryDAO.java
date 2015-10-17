@@ -3,19 +3,21 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.helpiez.api.model.CommonMeta;
+import org.helpiez.api.model.Events;
 import org.helpiez.api.model.Story;
-import org.helpiez.api.model.Storymeta;
+import org.helpiez.api.model.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,10 +30,165 @@ public class StoryDAO {
 	{	
 		Story story = new Story();
 		story =jdbc.queryForObject("SELECT * FROM posts WHERE postid=?", new storyMapper(), id);
-		return story;
+		return story;		
+	}
+	
+	public Boolean update(Story story, Story story2) {
+		if(story.getName()!=null)
+		{
+			story2.setName(story.getName());
+		}
+		if(story.getType()!=null)
+		{
+			story2.setType(story.getType());	
+		}
+		
+		if(story.getStatus()!=0)
+		{
+			story2.setStatus(story.getStatus());
+			
+		}
+		if(story.getUrl()!=null)
+		{
+			story2.setUrl(story.getUrl());
+		}
+		if(story.getGroupid()!=null)
+		{
+			story2.setGroupid(story.getGroupid());
+		}
+		if(story.getExtra()!=null)
+		{
+			story2.setExtra(story.getExtra());
+		}
+		
+		int check =jdbc.update("UPDATE posts SET postname=?, poststatus=? ,posttype=?, posturl=?, postxtra=?, postgroupid=? WHERE postid =? ",story2.getName(), story2.getStatus(), story2.getType(), story2.getUrl(), story2.getExtra(), story2.getGroupid(),  story2.getId());
+	
+		int check2 = insertupdate(story, story2);
+		
+		if (check ==1 && check2==1)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public Boolean createStory(Story story) {
+		
+		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
+		            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl")
+		            .usingGeneratedKeyColumns("postid");
+		
+		Map<String,Object> insertParameters = new HashMap<String, Object>();
+		insertParameters.put("postname", story.getName());
+		insertParameters.put("posttype", story.getType());
+		insertParameters.put("postxtra", story.getExtra());
+		insertParameters.put("poststatus", story.getStatus());
+		insertParameters.put("postgroupid", story.getGroupid());
+		insertParameters.put("posturl", story.getUrl());
+		
+		Number id = insert.executeAndReturnKey(insertParameters);
+		System.out.println(id);
+		int check2= insertupdate(story,getStorybyID(id.intValue()));
+		if (check2==1)
+		{
+		return true;
+		}
+		else {return false;}
+	}
+	
+	private int insertupdate(Story story, Story storybyID) {
+		if(story.getAuthorid()!=null)
+		 {
+			 if(storybyID.getAuthorid()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getAuthorid(), storybyID.getId(), "certificate" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "certificate" , story.getAuthorid() );
+				
+			 }
+		 } 
+		if(story.getBlogid()!=null)
+		 {
+			 if(storybyID.getBlogid()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getBlogid(), storybyID.getId(), "blogid" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "blogid" , story.getBlogid() );
+				
+			 }
+		 } 
+		else {
+			if(story.getBlog()!=null)
+				insertupdateblog(story.getBlog());
+		}
+		if(story.getCommentstatus()!=null)
+		 {
+			 if(storybyID.getCommentstatus()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getCommentstatus(), storybyID.getId(), "commentstatus" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "commentstatus" , story.getCommentstatus() );
+				
+			 }
+		 } 
+		if(story.getExcerpt()!=null)
+		 {
+			 if(storybyID.getExcerpt()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getExcerpt(), storybyID.getId(), "excerpt" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "excerpt" , story.getExcerpt() );
+				
+			 }
+		 } 
+		if(story.getFeaturedimage()!=null)
+		 {
+			 if(storybyID.getFeaturedimage()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getFeaturedimage(), storybyID.getId(), "featuredimage" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "featuredimage" , story.getFeaturedimage() );
+				
+			 }
+		 }
+		if(story.getPostparent()!=null)
+		 {
+			 if(storybyID.getPostparent()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getPostparent(), storybyID.getId(), "postparent" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "postparent" , story.getPostparent() );
+				
+			 }
+		 }
+		
+		return 1;
+	}
+
+	private void insertupdateblog(Text blog) {
 		
 		
 	}
+
 	public Story storymetamapper(Story story)throws ParseException
 	{
 		List<CommonMeta> ls= new ArrayList<CommonMeta>();
@@ -65,8 +222,8 @@ public class StoryDAO {
 			}
 			
 		}
-		Storymeta storymeta = new Storymeta();
-		storymeta =jdbc.queryForObject("SELECT * FROM blogmeta WHERE blogid=? and postid=?", new blogMapper(), story.getBlogid(), story.getId());
+		Text storymeta = new Text();
+		storymeta =jdbc.queryForObject("SELECT * FROM text WHERE textid=?", new textMapper(), story.getBlogid());
 		story.setBlog(storymeta);
 		return story;
 	}
@@ -107,16 +264,14 @@ public class StoryDAO {
 	        }
 	    }
 	   
-	   private class blogMapper implements RowMapper<Storymeta> {
-			public Storymeta mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Storymeta storymeta= new Storymeta();
-	        	storymeta.setBlogid(rs.getLong(1));
-	        	storymeta.setPostid(rs.getLong(2));
-	        	storymeta.setContent(rs.getString(3));
-	        	storymeta.setUserid(rs.getInt(4));
-	        	storymeta.setTimestamp(rs.getTimestamp(5));
-	        	storymeta.setBlogxtra(rs.getString(6));
-	            return storymeta;
+	   private class textMapper implements RowMapper<Text> {
+			public Text mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Text text= new Text();
+	        	text.setTextid(rs.getLong(1));
+	        	text.setContent(rs.getString(2));
+	        	text.setTimestamp(rs.getTimestamp(3));
+	        	text.setTextextra(rs.getString(4));
+	            return text;
 	        }
 	    }
 

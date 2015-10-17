@@ -1,5 +1,7 @@
 package org.helpiez.api.model;
 
+import java.awt.event.TextEvent;
+
 //Article, Long Text etc 
 public class Story extends Post {
 	
@@ -9,7 +11,7 @@ public class Story extends Post {
 	private String featuredimage;
 	private String commentstatus;
 	private String postparent;
-	private Storymeta blog;
+	private Text blog;
 	
 	
 	
@@ -49,10 +51,10 @@ public class Story extends Post {
 	public void setPostparent(String postparent) {
 		this.postparent = postparent;
 	}
-	public Storymeta getBlog() {
+	public Text getBlog() {
 		return blog;
 	}
-	public void setBlog(Storymeta blog) {
+	public void setBlog(Text blog) {
 		this.blog = blog;
 	}
 	

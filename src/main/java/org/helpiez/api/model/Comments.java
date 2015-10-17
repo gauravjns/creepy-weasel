@@ -8,7 +8,7 @@ public class Comments {
 	private int userid;
 	private String commentmeta;  //  user, story, feed , event, group, organization
 	private long commentmetaid;
-	private String content; // 5000 words Title in blog
+	private String content; // 5000 words 
 	private String type; // comment, rating , review
 	private String extra;
 	private int status; // inactive, flagged
