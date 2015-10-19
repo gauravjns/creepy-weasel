@@ -20,11 +20,16 @@ public class OrgDAO {
 	@Autowired
     protected JdbcTemplate jdbc;
 	
-	public Organization getOrgbyID(int id){
+	public Organization getOrgbyID(long id){
 		Organization organization= new Organization();
 		organization =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new groupMapper(), id);
 		return organization;
 		
+	}
+	public Organization getshortorgbyid(long id) {
+		Organization organization= new Organization();
+		organization =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new shortgroupMapper(), id);
+		return organization;
 	}
 	
 	public Boolean update(Organization org, Organization org2update) {
@@ -368,6 +373,19 @@ public class OrgDAO {
 	            return organization2;
 	        }
 	    }
+	   private class shortgroupMapper implements RowMapper<Organization> {
+		   public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
+		       	Organization organization = new Organization();
+		       	organization.setId(rs.getLong(1));
+		       	organization.setType(rs.getString(4));
+		       	organization.setStatus(rs.getShort(3));
+		       	organization.setLogo(rs.getString(7));
+		       	organization.setUrl(rs.getString(6));
+		       	organization.setTimestamp(rs.getTimestamp(5));
+		       	organization.setName(rs.getString(2));
+		       	return organization;
+       }
+   }
 	    
 	   private class groupMetaMapper implements RowMapper<CommonMeta> {
 			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
