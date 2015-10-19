@@ -4,22 +4,22 @@ import java.sql.Timestamp;
 
 public class CommonMeta {
 	
-	private int id;
-	private int pid;
+	private long id;
+	private long pid;
 	private String Key;
 	private String value;
 	private Timestamp timestamp;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	public int getPid() {
+	public long getPid() {
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(long pid) {
 		this.pid = pid;
 	}
 	public String getKey() {

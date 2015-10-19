@@ -14,7 +14,6 @@ public class StoryController {
 	
 	@Autowired
     private StoryDAO storydao;
-	
 
   	@RequestMapping(value="/{id}", method=RequestMethod.GET)
     public Story getStorybyId(@PathVariable("id") int id) {	    	

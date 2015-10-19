@@ -353,9 +353,9 @@ public class OrgDAO {
 	        	Organization organization = new Organization();
 	        	Organization organization2 = new Organization();
 	        	try {
-	        	organization.setId(rs.getInt(1));
+	        	organization.setId(rs.getLong(1));
 	        	organization.setType(rs.getString(4));
-	        	organization.setStatus(rs.getInt(3));
+	        	organization.setStatus(rs.getShort(3));
 	        	organization.setLogo(rs.getString(7));
 	        	organization.setUrl(rs.getString(6));
 	        	organization.setTimestamp(rs.getTimestamp(5));
@@ -372,8 +372,8 @@ public class OrgDAO {
 	   private class groupMetaMapper implements RowMapper<CommonMeta> {
 			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CommonMeta groupmeta= new CommonMeta();
-	        	groupmeta.setId(rs.getInt(1));
-	        	groupmeta.setPid(rs.getInt(2));
+	        	groupmeta.setId(rs.getLong(1));
+	        	groupmeta.setPid(rs.getLong(2));
 	        	groupmeta.setKey(rs.getString(3));
 	        	groupmeta.setValue(rs.getString(4));
 	        	groupmeta.setTimestamp(rs.getTimestamp(5));

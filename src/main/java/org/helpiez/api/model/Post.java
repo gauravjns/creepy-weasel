@@ -4,20 +4,20 @@ import java.sql.Timestamp;
 
 
 public class Post {
-	private int id;
+	private long id;
 	private String name; // 5000 words Title in blog
 	private String type;
 	private String extra;
-	private int status;
-	private String groupid;  //
+	private short status;
+	private long groupid;  //
 	private Timestamp timestamp;
 	private String url;
 	
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -38,16 +38,16 @@ public class Post {
 	public void setExtra(String extra) {
 		this.extra = extra;
 	}
-	public int getStatus() {
+	public short getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(short status) {
 		this.status = status;
 	}
-	public String getGroupid() {
+	public long getGroupid() {
 		return groupid;
 	}
-	public void setGroupid(String groupid) {
+	public void setGroupid(long groupid) {
 		this.groupid = groupid;
 	}
 	public Timestamp getTimestamp() {

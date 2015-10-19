@@ -52,7 +52,7 @@ public class StoryDAO {
 		{
 			story2.setUrl(story.getUrl());
 		}
-		if(story.getGroupid()!=null)
+		if(story.getGroupid()!=0)
 		{
 			story2.setGroupid(story.getGroupid());
 		}
@@ -235,13 +235,13 @@ public class StoryDAO {
 					Story story = new Story();
 					Story story2 = new Story();
 	        	try {
-	        	story.setId(rs.getInt("postid"));
+	        	story.setId(rs.getLong("postid"));
 	        	story.setType(rs.getString("posttype"));
-	        	story.setStatus(rs.getInt("poststatus"));
+	        	story.setStatus(rs.getShort("poststatus"));
 	        	story.setUrl(rs.getString("posturl"));
 	        	story.setTimestamp(rs.getTimestamp("posttimestamp"));
 	        	story.setName(rs.getString("postname"));
-	        	story.setGroupid(""+rs.getInt("postgroupid"));
+	        	story.setGroupid(rs.getLong("postgroupid"));
 	        	story.setExtra(rs.getString("postxtra"));
 	        	story2 = storymetamapper(story);
 				} catch (ParseException e) {
@@ -255,8 +255,8 @@ public class StoryDAO {
 	   private class postMetaMapper implements RowMapper<CommonMeta> {
 			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CommonMeta eventmeta= new CommonMeta();
-	        	eventmeta.setId(rs.getInt(1));
-	        	eventmeta.setPid(rs.getInt(2));
+	        	eventmeta.setId(rs.getLong(1));
+	        	eventmeta.setPid(rs.getLong(2));
 	        	eventmeta.setKey(rs.getString(3));
 	        	eventmeta.setValue(rs.getString(4));
 	        	eventmeta.setTimestamp(rs.getTimestamp(5));

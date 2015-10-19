@@ -72,7 +72,7 @@ public class EventsDAO {
 		{
 			event2.setUrl(event.getUrl());
 		}
-		if(event.getGroupid()!=null)
+		if(event.getGroupid()!=0)
 		{
 			event2.setGroupid(event.getGroupid());
 		}
@@ -301,11 +301,11 @@ public class EventsDAO {
 	        	try {
 	        	event.setId(rs.getInt("postid"));
 	        	event.setType(rs.getString("posttype"));
-	        	event.setStatus(rs.getInt("poststatus"));
+	        	event.setStatus(rs.getShort("poststatus"));
 	        	event.setUrl(rs.getString("posturl"));
 	        	event.setTimestamp(rs.getTimestamp("posttimestamp"));
 	        	event.setName(rs.getString("postname"));
-	        	event.setGroupid(""+rs.getInt("postgroupid"));
+	        	event.setGroupid(rs.getLong("postgroupid"));
 	        	event.setExtra(rs.getString("postxtra"));
 	        	event2 = eventmetamapper(event);
 				} catch (ParseException e) {
@@ -319,8 +319,8 @@ public class EventsDAO {
 	   private class eventMetaMapper implements RowMapper<CommonMeta> {
 			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CommonMeta eventmeta= new CommonMeta();
-	        	eventmeta.setId(rs.getInt(1));
-	        	eventmeta.setPid(rs.getInt(2));
+	        	eventmeta.setId(rs.getLong(1));
+	        	eventmeta.setPid(rs.getLong(2));
 	        	eventmeta.setKey(rs.getString(3));
 	        	eventmeta.setValue(rs.getString(4));
 	        	eventmeta.setTimestamp(rs.getTimestamp(5));

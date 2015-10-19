@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class User {
 	
-	private int id;
+	private long id;
 	private String email;
 	private String name;
-	private int status;
+	private short status;
 	private Timestamp timestamp;
 	private String img;
 	private String url;
@@ -29,10 +29,10 @@ public class User {
 	private String resume;
 	
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getEmail() {
@@ -47,10 +47,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getStatus() {
+	public short getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(short status) {
 		this.status = status;
 	}
 	public Timestamp getTimestamp() {

@@ -10,6 +10,7 @@ import java.util.List;
 import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,15 @@ public class UserDAO {
 	@Autowired
     protected JdbcTemplate jdbc;
 	
-	public User getuserbyid(int id) {
+	public User getuserbyid(long id) {
 		User user= new User();
 		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new userMapper(), id);
+		return user;
+	}
+	@Cacheable("User")
+	public User getshortuserbyid(long id) {
+		User user= new User();
+		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new usershortMapper(), id);
 		return user;
 	}
 	
@@ -334,14 +341,14 @@ public class UserDAO {
 	  
 	
 	  // User mapper Implementation  
-	    private class userMapper implements RowMapper<User> {
+	    public class userMapper implements RowMapper<User> {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				User user = new User();
 	            User user2 = new User();
 			try {
-	            user.setId(rs.getInt(1));
+	            user.setId(rs.getLong(1));
 	            user.setEmail(rs.getString(2));
-	            user.setStatus(rs.getInt(5));
+	            user.setStatus(rs.getShort(5));
 	            user.setImg(rs.getString(7));
 	            user.setUrl(rs.getString(8));
 	            user.setTimestamp(rs.getTimestamp(6));
@@ -355,11 +362,25 @@ public class UserDAO {
 			}
 		}
 	    
+	    public class usershortMapper implements RowMapper<User> {
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User user = new User();
+	            user.setId(rs.getLong(1));
+	            user.setEmail(rs.getString(2));
+	            user.setStatus(rs.getShort(5));
+	            user.setImg(rs.getString(7));
+	            user.setUrl(rs.getString(8));
+	            user.setTimestamp(rs.getTimestamp(6));
+	            user.setName(rs.getString("username"));
+				return user;
+			}
+		}
+	    
 	    private class userMetaMapper implements RowMapper<CommonMeta> {
 			public CommonMeta mapRow(ResultSet rs, int rowNum) throws SQLException {
 				CommonMeta usermeta = new CommonMeta();
-	            usermeta.setId(rs.getInt(1));
-	            usermeta.setPid(rs.getInt(2));
+	            usermeta.setId(rs.getLong(1));
+	            usermeta.setPid(rs.getLong(2));
 	            usermeta.setKey(rs.getString(3));
 	            usermeta.setValue(rs.getString(4));
 	            usermeta.setTimestamp(rs.getTimestamp(5));

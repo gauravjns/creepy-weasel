@@ -7,9 +7,9 @@ import java.util.Date;
 // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
 public class Organization {
 	
-	private int id;
+	private long id;
 	private String name;    // Registered
-	private int status;		//	1 created 2 active 3 with head 
+	private short status;		//	1 created 2 active 3 with head 
 	private Timestamp timestamp;
 	private String logo;
 	private String url;
@@ -69,10 +69,10 @@ public class Organization {
 	public void setView(String view) {
 		this.view = view;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -81,10 +81,10 @@ public class Organization {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getStatus() {
+	public short getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(short status) {
 		this.status = status;
 	}
 	public Timestamp getTimestamp() {
