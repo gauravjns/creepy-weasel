@@ -30,7 +30,19 @@ public class FollowDAO {
 	private PostDAO postDAO;
 	
 	
-	
+	public int save(Follow follow) {
+		try{
+		int check = jdbc.update("INSERT INTO follow (followid, userid, followmeta, followmetaid , followtype, followstatus) VALUES ( Default , ? , ?, ?, ?, ? )", follow.getUserid() , follow.getMeta(), follow.getMetaid(), follow.getType(), follow.getStatus());
+		return check;
+		} catch(Exception e)
+		{return 0;}
+	}
+	public int update(Follow follow) {
+		int check =jdbc.update("UPDATE follow SET followstatus=? where userid=? and followmeta=? and followmetaid=? and followtype =? ", follow.getStatus() ,follow.getUserid() , follow.getMeta(), follow.getMetaid(), follow.getType());
+		return check;
+	}
+
+
 	public List<User> getFollower( String meta, long metaid )
 	{	
 		List<User> lstuser = new ArrayList<User>();
@@ -58,25 +70,15 @@ public class FollowDAO {
 	// Followed Orgs of any type
 	public List<Organization> getFollowedOrgs(int id, String type) {
 		List<Organization> lst = new ArrayList<Organization>();
-		List<Follow> lstfollow =jdbc.query("SELECT * FROM follow WHERE followmeta=? and userid=?", new followMapper(), "org", id);
-		for (Follow follow : lstfollow) {
-			if(follow.getType()==1 && follow.getStatus()==1)
-			{
-				lst.add(orgDAO.getshortorgbyid(follow.getMetaid()));
-			}
-		}
+		String Sql="SELECT groupid, groupname, groupstatus, grouptype, grouptimestamp, groupurl, groupimg, groupxtra from groups inner join follow on followmetaid= groupid where userid=? and followmeta=? and grouptype=?"; 
+		lst =jdbc.query(Sql, new shortgroupMapper(),id, "org", type);
 		return lst;
 	}
 	
 	public List<Post> getFollowedPost(int id, String type) {
 		List<Post> lst = new ArrayList<Post>();
-		List<Follow> lstfollow =jdbc.query("SELECT * FROM follow WHERE followmeta=? and userid=?", new followMapper(), "post", id);
-		for (Follow follow : lstfollow) {
-			if(follow.getType()==1 && follow.getStatus()==1)
-			{
-				lst.add(postDAO.getpostbyid(follow.getUserid()));
-			}
-		}
+		String Sql="SELECT postid, postname, posttype, postxtra, poststatus,postgroupid,posttimestamp, posturl from posts inner join follow on followmetaid= postid where userid=? and followmeta=? and posttype=?"; 
+		lst =jdbc.query(Sql, new shortpostMapper(),id, "post", type);
 		return lst;
 	}
 	// Result set mapper
@@ -93,7 +95,38 @@ public class FollowDAO {
 	            return follow;
 	        }
 	    }
+	   private class shortgroupMapper implements RowMapper<Organization> {
+		   public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
+		       	Organization organization = new Organization();
+		       	organization.setId(rs.getLong(1));
+		       	organization.setType(rs.getString(4));
+		       	organization.setStatus(rs.getShort(3));
+		       	organization.setLogo(rs.getString(7));
+		       	organization.setUrl(rs.getString(6));
+		       	organization.setTimestamp(rs.getTimestamp(5));
+		       	organization.setName(rs.getString(2));
+		       	return organization;
+       }
+   }
+	    
+	   private class shortpostMapper implements RowMapper<Post> {
+			public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Post post = new Post();
+		     	post.setId(rs.getLong("postid"));
+		     	post.setType(rs.getString("posttype"));
+		     	post.setStatus(rs.getShort("poststatus"));
+		     	post.setUrl(rs.getString("posturl"));
+		     	post.setTimestamp(rs.getTimestamp("posttimestamp"));
+		     	post.setName(rs.getString("postname"));
+		     	post.setGroupid(rs.getLong("postgroupid"));
+		     	post.setExtra(rs.getString("postxtra"));
+		        return post;
+    }
+	   }
 
+	
+	
+	
 	
 
 }

@@ -2,7 +2,7 @@ package org.helpiez.api.model;
 
 import java.sql.Timestamp;
 
-// Internship, Volunteering, Jobs, Ongroud Events, survey    
+// internship, volunteering, job, event,
 public class Events extends Post
 {
 
