@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.helpiez.api.model.Follow;
-import org.helpiez.api.model.Organization;
+import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Post;
 import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class FollowDAO {
 	private UserDAO userDAO;
 	
 	@Autowired
-	private OrgDAO orgDAO;
+	private GroupDAO groupDAO;
 	
 	@Autowired
 	private PostDAO postDAO;
@@ -61,17 +61,17 @@ public class FollowDAO {
 		for (Follow follow : lstfollow) {
 			if(follow.getType()==1 && follow.getStatus()==1)
 			{
-				lstuser.add(userDAO.getshortuserbyid(follow.getUserid()));
+				lstuser.add(userDAO.getshortuserbyid(follow.getMetaid()));
 			}
 		}
 		return lstuser;
 	}
 	
-	// Followed Orgs of any type
-	public List<Organization> getFollowedOrgs(int id, String type) {
-		List<Organization> lst = new ArrayList<Organization>();
+	// Followed Groups of any type
+	public List<Group> getFollowedGroups(int id, String type) {
+		List<Group> lst = new ArrayList<Group>();
 		String Sql="SELECT groupid, groupname, groupstatus, grouptype, grouptimestamp, groupurl, groupimg, groupxtra from groups inner join follow on followmetaid= groupid where userid=? and followmeta=? and grouptype=?"; 
-		lst =jdbc.query(Sql, new shortgroupMapper(),id, "org", type);
+		lst =jdbc.query(Sql, new shortgroupMapper(),id, "group", type);
 		return lst;
 	}
 	
@@ -95,17 +95,17 @@ public class FollowDAO {
 	            return follow;
 	        }
 	    }
-	   private class shortgroupMapper implements RowMapper<Organization> {
-		   public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
-		       	Organization organization = new Organization();
-		       	organization.setId(rs.getLong(1));
-		       	organization.setType(rs.getString(4));
-		       	organization.setStatus(rs.getShort(3));
-		       	organization.setLogo(rs.getString(7));
-		       	organization.setUrl(rs.getString(6));
-		       	organization.setTimestamp(rs.getTimestamp(5));
-		       	organization.setName(rs.getString(2));
-		       	return organization;
+	   private class shortgroupMapper implements RowMapper<Group> {
+		   public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+		       	Group group = new Group();
+		       	group.setId(rs.getLong(1));
+		       	group.setType(rs.getString(4));
+		       	group.setStatus(rs.getShort(3));
+		       	group.setLogo(rs.getString(7));
+		       	group.setUrl(rs.getString(6));
+		       	group.setTimestamp(rs.getTimestamp(5));
+		       	group.setName(rs.getString(2));
+		       	return group;
        }
    }
 	    

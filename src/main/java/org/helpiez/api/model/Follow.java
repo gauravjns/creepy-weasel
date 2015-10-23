@@ -6,7 +6,7 @@ public class Follow {
 	
 	private long followid;
 	private long userid;
-	private String meta; // user, org, post
+	private String meta; // user, group, post
 	private long metaid; 
 	private short type; // 1- follow, 2- member (require aporoval)
 	private short status; // 1- active 2- applied , 3- deactivated 

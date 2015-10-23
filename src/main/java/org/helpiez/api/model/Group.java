@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
-public class Organization {
+public class Group {
 	
 	private long id;
 	private String name;    // Registered
@@ -13,7 +13,7 @@ public class Organization {
 	private Timestamp timestamp;
 	private String logo;
 	private String url;
-	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
+	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, UGROUP, CAUSE
 	private String phone;  // Public phone
 	private String address;  // Main office
 	private String city;

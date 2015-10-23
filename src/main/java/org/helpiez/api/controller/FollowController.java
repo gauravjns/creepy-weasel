@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.helpiez.api.DAO.FollowDAO;
 import org.helpiez.api.model.Follow;
-import org.helpiez.api.model.Organization;
+import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Post;
 import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,36 +57,36 @@ public class FollowController {
     	
     }
 	
-	// Groups followes
+	// Groups followed
 	@RequestMapping(value="/{id}/cause/", method=RequestMethod.GET)
-    public List<Organization> getcausefollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "cause"); 
+    public List<Group> getcausefollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "cause"); 
     	
     }
 	@RequestMapping(value="/{id}/nss/", method=RequestMethod.GET)
-    public List<Organization> getnssfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "nss"); 
+    public List<Group> getnssfollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "nss"); 
     	
     }
 	@RequestMapping(value="/{id}/ngo/", method=RequestMethod.GET)
-    public List<Organization> getngofollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "ngo"); 
+    public List<Group> getngofollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "ngo"); 
     	
-    }@RequestMapping(value="/{id}/group/", method=RequestMethod.GET)
-    public List<Organization> getgroupfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "group"); 
+    }@RequestMapping(value="/{id}/ugroup/", method=RequestMethod.GET)
+    public List<Group> getgroupfollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "ugroup"); 
     	
     }@RequestMapping(value="/{id}/campaign/", method=RequestMethod.GET)
-    public List<Organization> getcamfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "campaign"); 
+    public List<Group> getcamfollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "campaign"); 
     	
     }@RequestMapping(value="/{id}/startup/", method=RequestMethod.GET)
-    public List<Organization> getupfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "startup"); 
+    public List<Group> getupfollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "startup"); 
     	
     }@RequestMapping(value="/{id}/company/", method=RequestMethod.GET)
-    public List<Organization> getcomfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedOrgs(id, "company"); 
+    public List<Group> getcomfollowlist(@PathVariable("id") int id) {	    	
+		return followDAO.getFollowedGroups(id, "company"); 
     	
     }
     

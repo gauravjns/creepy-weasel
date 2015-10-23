@@ -6,11 +6,34 @@ public class Comments {
 	
 	private long id;
 	private long userid;
-	private String commeta;  //  user, post, org
+	private String commeta;  //  user, post, group
 	private long commetaid;
 	private String content; // 5000 chars 
-	private String extra; // inactive, flagged
+	private String extra; // unverified, flagged,active, delete
 	private Timestamp timestamp;
+	private long parent;
+	private String upvote;
+	private String downvote;
+	
+	
+	public String getUpvote() {
+		return upvote;
+	}
+	public void setUpvote(String upvote) {
+		this.upvote = upvote;
+	}
+	public String getDownvote() {
+		return downvote;
+	}
+	public void setDownvote(String downvote) {
+		this.downvote = downvote;
+	}
+	public long getParent() {
+		return parent;
+	}
+	public void setParent(long parent) {
+		this.parent = parent;
+	}
 	public long getId() {
 		return id;
 	}

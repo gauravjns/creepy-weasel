@@ -8,31 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.helpiez.api.model.CommonMeta;
-import org.helpiez.api.model.Organization;
+import org.helpiez.api.model.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OrgDAO {
+public class GroupDAO {
 	
 	@Autowired
     protected JdbcTemplate jdbc;
 	
-	public Organization getOrgbyID(long id){
-		Organization organization= new Organization();
-		organization =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new groupMapper(), id);
-		return organization;
+	public Group getOrgbyID(long id){
+		Group group= new Group();
+		group =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new groupMapper(), id);
+		return group;
 		
 	}
-	public Organization getshortorgbyid(long id) {
-		Organization organization= new Organization();
-		organization =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new shortgroupMapper(), id);
-		return organization;
+	public Group getshortorgbyid(long id) {
+		Group group= new Group();
+		group =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new shortgroupMapper(), id);
+		return group;
 	}
 	
-	public Boolean update(Organization org, Organization org2update) {
+	public Boolean update(Group org, Group org2update) {
 		if(org.getName()!=null)
 		{
 			org2update.setName(org.getName());
@@ -66,7 +66,7 @@ public class OrgDAO {
 		}
 	}	
 	
-	public Boolean save(Organization org) {
+	public Boolean save(Group org) {
 		int check = jdbc.update("INSERT INTO groups (groupid, groupname, groupstatus, grouptype, groupurl, groupimg, groupxtra) VALUES ( Default , ? , ?, ?, ?, ? , '')", org.getName() , org.getStatus(), org.getType(), org.getUrl(), org.getLogo() );
 		int check2= insertupdate(org, getgroupbyName(org.getName()) );
 		if (check ==1 && check2==1)
@@ -78,13 +78,13 @@ public class OrgDAO {
 		}
 	}
 
-	private Organization getgroupbyName(String name) {
-		Organization org =jdbc.queryForObject("SELECT * FROM groups WHERE groupname=?", new groupMapper(), name);
+	private Group getgroupbyName(String name) {
+		Group org =jdbc.queryForObject("SELECT * FROM groups WHERE groupname=?", new groupMapper(), name);
 		return org;
 	}
 
-	public List<Organization> getlistofGrp() {
-		List<Organization> ls = new ArrayList<Organization>();
+	public List<Group> getlistofGrp() {
+		List<Group> ls = new ArrayList<Group>();
 		ls= jdbc.query("SELECT * FROM groups", new groupMapper() );
 		return ls;
 	}
@@ -92,7 +92,7 @@ public class OrgDAO {
 	
 	// Extra meta functions
 	
-		  public int insertupdate(Organization org, Organization org2update)
+		  public int insertupdate(Group org, Group org2update)
 		  {
 			 if(org.getAbout()!=null)
 			 {
@@ -274,98 +274,98 @@ public class OrgDAO {
 		  }
 		  
 		  
-	 public Organization orgmetamapper(Organization organization) throws ParseException
+	 public Group orgmetamapper(Group group) throws ParseException
 	    {
 	    	List<CommonMeta> ls= new ArrayList<CommonMeta>();
 	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			ls = jdbc.query("SELECT * FROM groupmeta WHERE groupid=?", new groupMetaMapper(), organization.getId());
+			ls = jdbc.query("SELECT * FROM groupmeta WHERE groupid=?", new groupMetaMapper(), group.getId());
 			for (CommonMeta groupmeta : ls) {
 				String key= groupmeta.getKey();
 				if(key.equals("email"))
 				{
-					organization.setEmail(groupmeta.getValue());
+					group.setEmail(groupmeta.getValue());
 				}
 				if(key.equals("banner"))
 				{
-					organization.setBanner(groupmeta.getValue());
+					group.setBanner(groupmeta.getValue());
 				}
 				if(key.equals("weblink"))
 				{
-					organization.setWeblink(groupmeta.getValue());
+					group.setWeblink(groupmeta.getValue());
 				}
 				if(key.equals("mission"))
 				{
-					organization.setMission(groupmeta.getValue());
+					group.setMission(groupmeta.getValue());
 				}
 				if(key.equals("about"))
 				{
-					organization.setAbout(groupmeta.getValue());
+					group.setAbout(groupmeta.getValue());
 				}
 				if(key.equals("city"))
 				{
-					organization.setCity(groupmeta.getValue());
+					group.setCity(groupmeta.getValue());
 				}
 				if(key.equals("phone"))
 				{
-					organization.setPhone(groupmeta.getValue());
+					group.setPhone(groupmeta.getValue());
 				}
 				if(key.equals("address"))
 				{
-					organization.setAddress(groupmeta.getValue());
+					group.setAddress(groupmeta.getValue());
 				}
 				if(key.equals("state"))
 				{
-					organization.setState(groupmeta.getValue());
+					group.setState(groupmeta.getValue());
 				}
 				if(key.equals("pincode"))
 				{
-					organization.setPincode(groupmeta.getValue());
+					group.setPincode(groupmeta.getValue());
 				}
 				if(key.equals("googlepage"))
 				{
-					organization.setGooglepage(groupmeta.getValue());
+					group.setGooglepage(groupmeta.getValue());
 				}
 				if(key.equals("facebookpage"))
 				{
-					organization.setFacebookpage(groupmeta.getValue());
+					group.setFacebookpage(groupmeta.getValue());
 				}
 				if(key.equals("twitter"))
 				{
-					organization.setTwitter(groupmeta.getValue());
+					group.setTwitter(groupmeta.getValue());
 				}
 				if(key.equals("instagram"))
 				{
-					organization.setInstagram(groupmeta.getValue());
+					group.setInstagram(groupmeta.getValue());
 				}
 				if(key.equals("view"))
 				{
-					organization.setView(groupmeta.getValue());
+					group.setView(groupmeta.getValue());
 				}
 				if(key.equals("foundationdate"))
 				{
-					organization.setFoundationdate(formatter.parse(groupmeta.getValue()));
+					group.setFoundationdate(formatter.parse(groupmeta.getValue()));
 				}
 			
 				
 			}
-	    	return organization;
+	    	return group;
 	    	
 	    }
 	
 	 // Result set mapper
-	   private class groupMapper implements RowMapper<Organization> {
-				public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
-	        	Organization organization = new Organization();
-	        	Organization organization2 = new Organization();
+	   private class groupMapper implements RowMapper<Group> {
+				public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+	        	Group group = new Group();
+	        	Group organization2 = new Group();
 	        	try {
-	        	organization.setId(rs.getLong(1));
-	        	organization.setType(rs.getString(4));
-	        	organization.setStatus(rs.getShort(3));
-	        	organization.setLogo(rs.getString(7));
-	        	organization.setUrl(rs.getString(6));
-	        	organization.setTimestamp(rs.getTimestamp(5));
-	        	organization.setName(rs.getString(2));
-	        	organization2 = orgmetamapper(organization);
+	        	group.setId(rs.getLong(1));
+	        	group.setType(rs.getString(4));
+	        	group.setStatus(rs.getShort(3));
+	        	group.setLogo(rs.getString(7));
+	        	group.setUrl(rs.getString(6));
+	        	group.setTimestamp(rs.getTimestamp(5));
+	        	group.setName(rs.getString(2));
+	        	organization2 = orgmetamapper(group);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -373,17 +373,17 @@ public class OrgDAO {
 	            return organization2;
 	        }
 	    }
-	   private class shortgroupMapper implements RowMapper<Organization> {
-		   public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
-		       	Organization organization = new Organization();
-		       	organization.setId(rs.getLong(1));
-		       	organization.setType(rs.getString(4));
-		       	organization.setStatus(rs.getShort(3));
-		       	organization.setLogo(rs.getString(7));
-		       	organization.setUrl(rs.getString(6));
-		       	organization.setTimestamp(rs.getTimestamp(5));
-		       	organization.setName(rs.getString(2));
-		       	return organization;
+	   private class shortgroupMapper implements RowMapper<Group> {
+		   public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+		       	Group group = new Group();
+		       	group.setId(rs.getLong(1));
+		       	group.setType(rs.getString(4));
+		       	group.setStatus(rs.getShort(3));
+		       	group.setLogo(rs.getString(7));
+		       	group.setUrl(rs.getString(6));
+		       	group.setTimestamp(rs.getTimestamp(5));
+		       	group.setName(rs.getString(2));
+		       	return group;
        }
    }
 	    

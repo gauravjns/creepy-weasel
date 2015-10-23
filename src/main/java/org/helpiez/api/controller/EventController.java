@@ -2,7 +2,7 @@ package org.helpiez.api.controller;
 
 import org.helpiez.api.DAO.EventsDAO;
 import org.helpiez.api.model.Events;
-import org.helpiez.api.model.Organization;
+import org.helpiez.api.model.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

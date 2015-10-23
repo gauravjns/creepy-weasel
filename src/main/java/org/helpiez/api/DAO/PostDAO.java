@@ -6,7 +6,7 @@ import java.text.ParseException;
 
 
 import org.helpiez.api.model.Events;
-import org.helpiez.api.model.Organization;
+import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
