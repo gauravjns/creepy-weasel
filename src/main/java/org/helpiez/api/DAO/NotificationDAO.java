@@ -2,7 +2,9 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import org.helpiez.api.model.Comments;
 import org.helpiez.api.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,20 @@ public class NotificationDAO {
 		Notification notification= new Notification();
 		notification =jdbc.queryForObject("SELECT * FROM notification WHERE notid=?", new notMapper(), id);
 		return notification;
+	}
+	public List<Notification> getNotificationList(int id) {
+		return jdbc.query("SELECT * FROM notification WHERE userid=? order by timestamp Desc", new notMapper(), id);	
+	}
+	
+	public int save(Notification notification) {
+		return jdbc.update("INSERT INTO notification (notid, userid, text, timestamp, meta, link, image) VALUES ( Default , ? , ?, Default,  ?, ?, ?)",notification.getUserid() , notification.getText(),notification.getMeta() , notification.getLink(), notification.getImage());
+	}
+	
+
+	public int viewed(long msgid)
+	{
+		return jdbc.update("UPDATE notification SET viewed=2 WHERE notid =? ", msgid);
+		
 	}
 	
 	// Result set mapper
@@ -35,5 +51,7 @@ public class NotificationDAO {
 	            return notification;
 	        }
 	    }
+
+	
 
 }

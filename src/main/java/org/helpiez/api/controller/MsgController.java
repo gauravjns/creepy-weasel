@@ -47,7 +47,7 @@ public class MsgController {
 		
 	// Viewed message
 		@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	    public int viewMsgbyId(@PathVariable("id") int id) {	    	
+	    public int viewMsgbyId(@PathVariable("id") long id) {	    	
 			 return msgDAO.viewed(id); 
 	    }
 		

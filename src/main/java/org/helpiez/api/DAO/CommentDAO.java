@@ -50,6 +50,8 @@ public class CommentDAO {
 		
 	}
 	
+	
+	
 	// Result set mapper
 	   private class commentMapper implements RowMapper<Comments> {
 				public Comments mapRow(ResultSet rs, int rowNum) throws SQLException {
