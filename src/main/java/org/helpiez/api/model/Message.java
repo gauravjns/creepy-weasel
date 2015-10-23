@@ -9,7 +9,7 @@ public class Message {
 	private String message; //5000 chars
 	private int thread; // Message between two user
 	private Timestamp timestamp;
-	private short viewed; // 0 - not viewed 1- viewed 
+	private short viewed; // 1 - not viewed 2- viewed 
 	private long userto;
 	
 	
