@@ -1,7 +1,5 @@
 package org.helpiez.api.model;
 
-import java.awt.event.TextEvent;
-
 //Article, Long Text etc 
 public class Story extends Post {
 	

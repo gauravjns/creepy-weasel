@@ -2,6 +2,7 @@ package org.helpiez.api.model;
 
 import java.sql.Timestamp;
 
+
 public class Feed extends Post {
 	
 	private String userid;

@@ -1,5 +1,7 @@
 package org.helpiez.api.DAO;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -18,20 +20,37 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDAO {
 	
+	@Autowired CommonDAO commonDAO;
 	
 	@Autowired
     protected JdbcTemplate jdbc;
+	
+	private SecureRandom random = new SecureRandom();
 	
 	public User getuserbyid(long id) {
 		User user= new User();
 		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new userMapper(), id);
 		return user;
 	}
+	
 	@Cacheable("User")
 	public User getshortuserbyid(long id) {
 		User user= new User();
 		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new usershortMapper(), id);
 		return user;
+	}
+	
+	public Boolean userlogin(long id, String password)
+	{	User user= new User();
+		try {
+		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=? and userpassword=?", new usershortMapper(), id, password);
+		}
+		catch(Exception e){
+			System.out.println(e);
+		} 
+		if (user!=null)
+			return true;
+		return false;
 	}
 	
 	public User getuserbyemail(String email) {
@@ -42,7 +61,7 @@ public class UserDAO {
 	
 	public List<User> getlistofuser() {
 		List<User> ls = new ArrayList<User>();
-		ls= jdbc.query("SELECT * FROM user", new userMapper());
+		ls= jdbc.query("SELECT * FROM user where userstatus in (2,3) ", new userMapper());
 		return ls;
 	}
 	
@@ -78,10 +97,12 @@ public class UserDAO {
 		}
 	}
 	
-	public Boolean save(User user, String Password) {
-		int check = jdbc.update("INSERT INTO user (userid, useremail, userpassword, username, userstatus, userimg, userurl, userxtra) VALUES ( Default , ? , ?, ?, ?, ?, ? , '')", user.getEmail(), Password , user.getName(), user.getStatus(), user.getImg(), user.getUrl() );
-		int check2= insertupdate(user, getuserbyemail(user.getEmail()));
-		if (check ==1 && check2==1)
+	public Boolean save(User user, String Password) {		
+		int check = jdbc.update("INSERT INTO user (userid, useremail, userpassword, username, userstatus, userimg, userurl, userxtra) VALUES ( Default , ? , ?, ?, ?, ?, ? , '')", user.getEmail(), Password , user.getName(), user.getStatus(), user.getImg(),commonDAO.urlgenerator(user.getName(), "user"));
+		User user2 = getuserbyemail(user.getEmail());
+		int check2= insertupdate(user, user2);
+		int check3= EmailKeyGen(user2.getId());
+		if (check ==1 && check2==1 && check3==1)
 		{
 			return true;
 		}
@@ -91,7 +112,28 @@ public class UserDAO {
 	
 	}
 	
+	private int EmailKeyGen(long id)
+	{
+		  String key=  new BigInteger(130, random).toString(32);
+		  return jdbc.update("INSERT INTO usermeta (usermetaid, userid, usermetakey, usermetavalue) VALUES ( Default , ? , ?, ?)", id, "emailkey" , key );
+	}
 	
+	public Boolean EmailkeyVer(long id, String key)
+	{ 
+		CommonMeta userkey= jdbc.queryForObject("SELECT * FROM usermeta WHERE userid=? and usermetakey=? order by usermetaid Desc limit 1", new userMetaMapper(), id, "emailkey");
+		if(key.equals(userkey.getValue()))
+		{
+			int check =jdbc.update("UPDATE user SET  userstatus=?  WHERE userid =? ", 2 , id);
+			if (check==1)
+				return true;
+			return false;
+		}
+		else 
+		{
+			return false;
+		}
+		
+	}
 	
 	
 	// Extra meta functions
@@ -336,28 +378,24 @@ public class UserDAO {
 	    	return user;
 	    	
 	    }
-	
-	  
-	  
-	
 	  // User mapper Implementation  
 	    public class userMapper implements RowMapper<User> {
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				User user = new User();
 	            User user2 = new User();
-			try {
-	            user.setId(rs.getLong(1));
-	            user.setEmail(rs.getString(2));
-	            user.setStatus(rs.getShort(5));
-	            user.setImg(rs.getString(7));
-	            user.setUrl(rs.getString(8));
-	            user.setTimestamp(rs.getTimestamp(6));
-	            user.setName(rs.getString("username"));
-	            user2 = usermetamapper(user);
-				} 
-			catch (ParseException e) {
-					e.printStackTrace();
-				}  
+				try {
+		            user.setId(rs.getLong(1));
+		            user.setEmail(rs.getString(2));
+		            user.setStatus(rs.getShort(5));
+		            user.setImg(rs.getString(7));
+		            user.setUrl(rs.getString(8));
+		            user.setTimestamp(rs.getTimestamp(6));
+		            user.setName(rs.getString("username"));
+		            user2 = usermetamapper(user);
+					} 
+				catch (ParseException e) {
+						e.printStackTrace();
+					}  
 				return user2;
 			}
 		}
@@ -387,6 +425,5 @@ public class UserDAO {
 	            return usermeta;
 	        }
 	    }
-	    
 	
 }

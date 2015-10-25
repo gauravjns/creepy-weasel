@@ -13,7 +13,7 @@ public class Group {
 	private Timestamp timestamp;
 	private String logo;
 	private String url;
-	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, UGROUP, CAUSE
+	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, CLUB, CAUSE
 	private String phone;  // Public phone
 	private String address;  // Main office
 	private String city;
