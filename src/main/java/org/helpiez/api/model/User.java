@@ -27,8 +27,22 @@ public class User {
 	private String city;
 	private String about;
 	private String resume;
+	private String fname;
+	private String lame;
 	
 	
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getLame() {
+		return lame;
+	}
+	public void setLame(String lame) {
+		this.lame = lame;
+	}
 	public long getId() {
 		return id;
 	}

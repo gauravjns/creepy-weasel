@@ -20,6 +20,9 @@ public class GroupDAO {
 	@Autowired
     protected JdbcTemplate jdbc;
 	
+	@Autowired CommonDAO commonDAO;
+	
+	
 	public Group getOrgbyID(long id){
 		Group group= new Group();
 		group =jdbc.queryForObject("SELECT * FROM groups WHERE groupid=?", new groupMapper(), id);
@@ -66,9 +69,10 @@ public class GroupDAO {
 		}
 	}	
 	
-	public Boolean save(Group org) {
-		int check = jdbc.update("INSERT INTO groups (groupid, groupname, groupstatus, grouptype, groupurl, groupimg, groupxtra) VALUES ( Default , ? , ?, ?, ?, ? , '')", org.getName() , org.getStatus(), org.getType(), org.getUrl(), org.getLogo() );
-		int check2= insertupdate(org, getgroupbyName(org.getName()) );
+	public Boolean save(Group group) {
+		String url= commonDAO.urlgenerator(group.getName(), "group");
+		int check = jdbc.update("INSERT INTO groups (groupid, groupname, groupstatus, grouptype, groupurl, groupimg, groupxtra) VALUES ( Default , ? , ?, ?, ?, ? , '')",group.getName() , group.getStatus(), group.getType(), url, group.getLogo() );
+		int check2= insertupdate(group, getgroupbyName(group.getName()) );
 		if (check ==1 && check2==1)
 		{
 			return true;
@@ -94,7 +98,7 @@ public class GroupDAO {
 	
 		  public int insertupdate(Group org, Group org2update)
 		  {
-			 if(org.getAbout()!=null)
+			 if(org.getAbout()!=null )
 			 {
 				 if(org2update.getAbout()!=null)
 				 {
@@ -105,7 +109,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "about" , org.getAbout() );
 				 }
 			 }
-			 if(org.getBanner()!=null)
+			 if(org.getBanner()!=null )
 			 {
 				 if(org2update.getBanner()!=null)
 				 {
@@ -116,7 +120,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "banner" , org.getBanner() );
 				 }
 			 }
-			 if(org.getEmail()!=null)
+			 if(org.getEmail()!=null )
 			 {
 				 if(org2update.getEmail()!=null)
 				 {
@@ -127,7 +131,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "email" , org.getEmail() );
 				 }
 			 }
-			 if(org.getMission()!=null)
+			 if(org.getMission()!=null )
 			 {
 				 if(org2update.getMission()!=null)
 				 {
@@ -138,7 +142,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "mission" , org.getMission() );
 				 }
 			 }
-			 if(org.getPincode()!=null)
+			 if(org.getPincode()!=null )
 			 {
 				 if(org2update.getPincode()!=null)
 				 {
@@ -149,7 +153,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "pincode" , org.getPincode() );
 				 }
 			 }
-			 if(org.getAddress()!=null)
+			 if(org.getAddress()!=null )
 			 {
 				 if(org2update.getAddress()!=null)
 				 {
@@ -171,7 +175,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "city" , org.getCity() );
 				 }
 			 }
-			 if(org.getPhone()!=null)
+			 if(org.getPhone()!=null )
 			 {
 				 if(org2update.getPhone()!=null)
 				 {
@@ -182,7 +186,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "phone" , org.getPhone() );
 				 }
 			 }
-			 if(org.getState()!=null)
+			 if(org.getState()!=null )
 			 {
 				 if(org2update.getState()!=null)
 				 {
@@ -204,7 +208,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "weblink" , org.getWeblink() );
 				 }
 			 }
-			 if(org.getFacebookpage()!=null)
+			 if(org.getFacebookpage()!=null )
 			 {
 				 if(org2update.getFacebookpage()!=null)
 				 {
@@ -215,7 +219,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "facebookpage" , org.getFacebookpage() );
 				 }
 			 }
-			 if(org.getTwitter()!=null)
+			 if(org.getTwitter()!=null )
 			 {
 				 if(org2update.getTwitter()!=null)
 				 {
@@ -226,7 +230,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "twitter" , org.getTwitter() );
 				 }
 			 }
-			 if(org.getInstagram()!=null)
+			 if(org.getInstagram()!=null )
 			 {
 				 if(org2update.getInstagram()!=null)
 				 {
@@ -248,7 +252,7 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "googlepage" , org.getGooglepage() );
 				 }
 			 }
-			 if(org.getView()!=null)
+			 if(org.getView()!=null )
 			 {
 				 if(org2update.getView()!=null)
 				 {
@@ -259,7 +263,29 @@ public class GroupDAO {
 					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "view" , org.getView() );
 				 }
 			 }
-			 if(org.getFoundationdate()!=null)
+			 if(org.getYoutube()!=null )
+			 {
+				 if(org2update.getYoutube()!=null)
+				 {
+					 jdbc.update("UPDATE groupmeta SET groupmetavalue=? WHERE groupid =? and groupmetakey=?",org.getYoutube(), org2update.getId(), "youtube" );
+						 
+				 }
+				 else{
+					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "youtube" , org.getYoutube() );
+				 }
+			 }
+			 if(org.getStrength()!=null )
+			 {
+				 if(org2update.getStrength()!=null)
+				 {
+					 jdbc.update("UPDATE groupmeta SET groupmetavalue=? WHERE groupid =? and groupmetakey=?",org.getStrength(), org2update.getId(), "strength" );
+						 
+				 }
+				 else{
+					 jdbc.update("INSERT INTO groupmeta (groupmetaid, groupid, groupmetakey, groupmetavalue) VALUES ( Default , ? , ?, ?)", org2update.getId(), "strength" , org.getStrength() );
+				 }
+			 }
+			 if(org.getFoundationdate()!=null )
 			 {
 				 if(org2update.getFoundationdate()!=null)
 				 {
@@ -341,11 +367,18 @@ public class GroupDAO {
 				{
 					group.setView(groupmeta.getValue());
 				}
+				if(key.equals("strength"))
+				{
+					group.setStrength(groupmeta.getValue());
+				}
+				if(key.equals("youtube"))
+				{
+					group.setYoutube(groupmeta.getValue());
+				}
 				if(key.equals("foundationdate"))
 				{
 					group.setFoundationdate(formatter.parse(groupmeta.getValue()));
 				}
-			
 				
 			}
 	    	return group;

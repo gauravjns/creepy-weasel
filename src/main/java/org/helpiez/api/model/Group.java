@@ -4,7 +4,7 @@ package org.helpiez.api.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-// NSS, COMPANY, NGO, CAMPAIGN, STARTUP, GROUP, CAUSE
+// NSS, COM, NGO, CAMP, GOV, CLUB, CAUSE
 public class Group {
 	
 	private long id;
@@ -13,7 +13,7 @@ public class Group {
 	private Timestamp timestamp;
 	private String logo;
 	private String url;
-	private String type;  // NSS, COMPANY, NGO, CAMPAIGN, STARTUP, CLUB, CAUSE
+	private String type; //NSS, COM, NGO, CAMP, GOV, CLUB, CAUSE
 	private String phone;  // Public phone
 	private String address;  // Main office
 	private String city;
@@ -30,9 +30,23 @@ public class Group {
 	private Date foundationdate;
 	private String about; // Brief description 
 	private String mission;
+	private String youtube;
+	private String strength;
 	
 	
 	
+	public String getYoutube() {
+		return youtube;
+	}
+	public void setYoutube(String youtube) {
+		this.youtube = youtube;
+	}
+	public String getStrength() {
+		return strength;
+	}
+	public void setStrength(String strength) {
+		this.strength = strength;
+	}
 	public String getCity() {
 		return city;
 	}

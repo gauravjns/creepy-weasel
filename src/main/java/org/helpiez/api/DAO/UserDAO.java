@@ -98,10 +98,20 @@ public class UserDAO {
 	}
 	
 	public Boolean save(User user, String Password) {		
-		int check = jdbc.update("INSERT INTO user (userid, useremail, userpassword, username, userstatus, userimg, userurl, userxtra) VALUES ( Default , ? , ?, ?, ?, ?, ? , '')", user.getEmail(), Password , user.getName(), user.getStatus(), user.getImg(),commonDAO.urlgenerator(user.getName(), "user"));
-		User user2 = getuserbyemail(user.getEmail());
+		
+		if (Password==null)
+			Password="";
+		String url= commonDAO.urlgenerator(user.getName(), "user");
+		String email = user.getEmail();
+		if(email.equals(""))
+		{
+			email=url+"@helpiez.org";
+		}
+		int check = jdbc.update("INSERT INTO user (userid, useremail, userpassword, username, userstatus, userimg, userurl, userxtra) VALUES ( Default , ? , ?, ?, ?, ?, ? , '')", email, Password , user.getName(), user.getStatus(), user.getImg(),url);
+		User user2 = getuserbyemail(email);
 		int check2= insertupdate(user, user2);
-		int check3= EmailKeyGen(user2.getId());
+		//int check3= EmailKeyGen(user2.getId()); // Remove after migration
+		int check3=1;
 		if (check ==1 && check2==1 && check3==1)
 		{
 			return true;
@@ -296,17 +306,7 @@ public class UserDAO {
 				 jdbc.update("INSERT INTO usermeta (usermetaid, userid, usermetakey, usermetavalue) VALUES ( Default , ? , ?, ?)", usertoupdate.getId(), "twitter" , user.getTwitter() );
 			 }
 		 }
-		 if(user.getBirthday()!=null)
-		 {
-			 if(usertoupdate.getBirthday()!=null)
-			 {
-				 jdbc.update("UPDATE usermeta SET usermetavalue=? WHERE userid =? and usermetakey=?",user.getBirthday(), usertoupdate.getId(), "birthday" );
-					 
-			 }
-			 else{
-				 jdbc.update("INSERT INTO usermeta (usermetaid, userid, usermetakey, usermetavalue) VALUES ( Default , ? , ?, ?)", usertoupdate.getId(), "birthday" , user.getBirthday());
-			 }
-		 }
+	
 		 return 1;   
 	  }
 	
