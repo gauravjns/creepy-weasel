@@ -400,7 +400,6 @@ public class GroupDAO {
 	        	group.setName(rs.getString(2));
 	        	organization2 = orgmetamapper(group);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	            return organization2;

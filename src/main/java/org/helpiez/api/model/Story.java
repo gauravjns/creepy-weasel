@@ -4,11 +4,11 @@ package org.helpiez.api.model;
 public class Story extends Post {
 	
 	private String authorid; // story author 
-	private String blogid;
+	private String blogid; // Stored text
 	private String excerpt;
 	private String featuredimage;
-	private String commentstatus;
-	private String postparent;
+	private String commentstatus; //
+	private String postparent; //
 	private Text blog;
 	
 	
