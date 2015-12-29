@@ -73,7 +73,7 @@ public class StoryDAO {
 			return false;
 		}
 	}
-	public Boolean createStory(Story story) {
+	public int createStory(Story story) {
 		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
 		            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl")
@@ -92,9 +92,9 @@ public class StoryDAO {
 		int check2= insertupdate(story,getStorybyID(id.intValue()));
 		if (check2==1)
 		{
-		return true;
+		return 1;
 		}
-		else {return false;}
+		else {return 0;}
 	}
 	
 	private int insertupdate(Story story, Story storybyID) {

@@ -4,12 +4,12 @@ package org.helpiez.api.model;
 public class Story extends Post {
 	
 	private String authorid; // story author 
-	private String blogid; // Stored text
+	private String blogid; // Stored text id which is used to fetch the current text
 	private String excerpt;
-	private String featuredimage;
-	private String commentstatus; //
-	private String postparent; //
-	private Text blog;
+	private String featuredimage; 
+	private String commentstatus; // 1-for comment 2- for comment closed 3- no comment allowed
+	private String postparent; // Optional If story under intership or event
+	private Text blog; // 
 	
 	
 	

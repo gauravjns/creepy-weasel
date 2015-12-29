@@ -95,6 +95,34 @@ public class EventsDAO {
 	}
 	
 	private int insertupdate(Events event,  Events event2update) {
+		
+		if(event.getCommentstatus()!=null)
+		 {
+			 if(event2update.getCommentstatus()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getCommentstatus(), event2update.getId(), "commentstatus" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "commentstatus" , event.getCommentstatus() );
+				
+			 }
+		 }
+		
+		if(event.getQuestion()!=null)
+		 {
+			 if(event2update.getQuestion()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getQuestion(), event2update.getId(), "question" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "question" , event.getQuestion() );
+				
+			 }
+		 } 
 		if(event.getCertificate()!=null)
 		 {
 			 if(event2update.getCertificate()!=null)
@@ -289,6 +317,19 @@ public class EventsDAO {
 				{
 					event.setDeadline(Timestamp.valueOf(groupmeta.getValue()));
 				}
+				if(key.equals("commentstatus"))
+				{
+					event.setCommentstatus(groupmeta.getValue());
+				}
+				if(key.equals("commentstatus"))
+				{
+					event.setCommentstatus(groupmeta.getValue());
+				}
+				if(key.equals("question"))
+				{
+					event.setQuestion(groupmeta.getValue());
+				}
+				
 	
 			}
 			return event;

@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 
 public class Post {
 	private long id;
-	private String name; // 5000 words Title in blog
-	private String type;
+	private String name; // 5000 words Title in blog, internship, event
+	private String type; // internship, volunteering, job, event,
 	private String extra;
 	private short status;
 	private long groupid;  //

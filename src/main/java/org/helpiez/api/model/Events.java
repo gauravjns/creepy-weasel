@@ -18,10 +18,23 @@ public class Events extends Post
 	private String virtual;  // Full time , part time, virtual , 
 	private String certificate; // postid for certification
 	private Timestamp deadline;
-//	private String question;// (question, type, qmeta) 
-//	private String commentstatus; 
-//	private String postparent;
-//  private String nu_question;	// number of question 
+	private String question;// (question, type, qmeta) 
+	private String commentstatus; //comments allowed or not
+	
+	
+	
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public String getCommentstatus() {
+		return commentstatus;
+	}
+	public void setCommentstatus(String commentstatus) {
+		this.commentstatus = commentstatus;
+	}
 	
 	public String getRequired() {
 		return required;
