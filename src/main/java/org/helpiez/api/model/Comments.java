@@ -6,10 +6,10 @@ public class Comments {
 	
 	private long id;
 	private long userid;
-	private String commeta;  //  user, post, group
+	private String commeta;  //  USER, POST, GROUP
 	private long commetaid;
 	private String content; // 5000 chars 
-	private String extra; // unverified, flagged,active, delete
+	private String extra; // UNVERFIFED , FLAGGED , ACTIVE, INACTIVE
 	private Timestamp timestamp;
 	private long parent;
 	private String upvote;

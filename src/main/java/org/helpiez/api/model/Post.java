@@ -6,9 +6,9 @@ import java.sql.Timestamp;
 public class Post {
 	private long id;
 	private String name; // 5000 words Title in blog, internship, event
-	private String type; // internship, volunteering, job, event,
+	private String type; // INTERN, VOLUNTEER, JOB, EVENT, STORY
 	private String extra;
-	private short status;
+	private short status; // 1- created visible only to creator 2- active (visible to all) 3- deleted (only shown to administrator)
 	private long groupid;  //
 	private Timestamp timestamp;
 	private String url;

@@ -25,9 +25,9 @@ public class EventController {
     	return event;
     }
   	
-  	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public Boolean updateEvent(@RequestBody Events event, @PathVariable("id") int id) {	 
-  		Events event2= eventdao.getEventbyID(id); 
+  	@RequestMapping(value="/", method=RequestMethod.PUT)
+    public Boolean updateEvent(@RequestBody Events event) {	 
+  		Events event2= eventdao.getEventbyID(event.getId()); 
   		return eventdao.update(event, event2);
     }
   	

@@ -29,7 +29,7 @@ public class StoryController {
     	return story;
     }
   	
-  	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+  	@RequestMapping(value="/", method=RequestMethod.POST)
     public int createstory(@RequestBody Story story) {	    	
   		// check whether in proper format
 		if (story.getName()!=null)

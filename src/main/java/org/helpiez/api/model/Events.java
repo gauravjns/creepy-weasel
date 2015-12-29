@@ -15,11 +15,11 @@ public class Events extends Post
 	private String duration ;
 	private String schedule;
 	private String image;
-	private String virtual;  // Full time , part time, virtual , 
+	private String virtual;  // FULLTIME  , PARTTIME, VIRTUAL , 
 	private String certificate; // postid for certification
 	private Timestamp deadline;
 	private String question;// (question, type, qmeta) 
-	private String commentstatus; //comments allowed or not
+	private String commentstatus; // 1-for comment 2- for comment closed 3- no comment allowed
 	
 	
 	

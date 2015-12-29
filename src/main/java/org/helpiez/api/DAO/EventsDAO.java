@@ -24,7 +24,10 @@ public class EventsDAO {
 	@Autowired
     protected JdbcTemplate jdbc;
 	
-	public Events getEventbyID(int id){
+	@Autowired
+    protected CommonDAO commonDAO;
+	
+	public Events getEventbyID(long id){
 		Events event= new Events();
 		event =jdbc.queryForObject("SELECT * FROM posts WHERE postid=?", new eventMapper(), id);
 		return event;	
@@ -41,7 +44,8 @@ public class EventsDAO {
 	insertParameters.put("postxtra", event.getExtra());
 	insertParameters.put("poststatus", event.getStatus());
 	insertParameters.put("postgroupid", event.getGroupid());
-	insertParameters.put("posturl", event.getUrl());
+	insertParameters.put("posturl", commonDAO.urlgenerator(event.getName(), "post"));
+	
 	
 	Number id = insert.executeAndReturnKey(insertParameters);
 	System.out.println(id);
@@ -68,10 +72,10 @@ public class EventsDAO {
 			event2.setStatus(event.getStatus());
 			
 		}
-		if(event.getUrl()!=null)
+		/*if(event.getUrl()!=null)
 		{
 			event2.setUrl(event.getUrl());
-		}
+		}*/
 		if(event.getGroupid()!=0)
 		{
 			event2.setGroupid(event.getGroupid());
