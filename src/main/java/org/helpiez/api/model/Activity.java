@@ -2,6 +2,7 @@ package org.helpiez.api.model;
 
 import java.sql.Timestamp;
 
+//Can add ( userid, actmeta, actmetaid, type) as primary key
 public class Activity {
 	
 	private long id;

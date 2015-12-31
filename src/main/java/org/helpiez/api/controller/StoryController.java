@@ -1,6 +1,7 @@
 package org.helpiez.api.controller;
 
 import org.helpiez.api.DAO.StoryDAO;
+import org.helpiez.api.model.Activity;
 import org.helpiez.api.model.Comments;
 import org.helpiez.api.model.Story;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public class StoryController {
     	return story;
     }
   	
-  	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public Story editStorybyId(@PathVariable("id") int id) {	    	
-  		Story story = storydao.getStorybyID(id); 
-    	return story;
+  	@RequestMapping(value="/", method=RequestMethod.PUT)
+    public boolean editStorybyId(@RequestBody Story story) {	    	
+  		Story story2 = storydao.getStorybyID(story.getId()); 
+    	return storydao.update(story, story2);
     }
   	
   	@RequestMapping(value="/", method=RequestMethod.POST)

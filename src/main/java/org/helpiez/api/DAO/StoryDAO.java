@@ -25,15 +25,18 @@ public class StoryDAO {
 	
 	@Autowired
     protected JdbcTemplate jdbc;
+
+	@Autowired 
+	private CommonDAO commonDAO;
 	
-	public Story getStorybyID(int id)
+	public Story getStorybyID(long id)
 	{	
 		Story story = new Story();
 		story =jdbc.queryForObject("SELECT * FROM posts WHERE postid=?", new storyMapper(), id);
 		return story;		
 	}
 	
-	public Boolean update(Story story, Story story2) {
+	public boolean update(Story story, Story story2) {
 		if(story.getName()!=null)
 		{
 			story2.setName(story.getName());
@@ -85,11 +88,11 @@ public class StoryDAO {
 		insertParameters.put("postxtra", story.getExtra());
 		insertParameters.put("poststatus", story.getStatus());
 		insertParameters.put("postgroupid", story.getGroupid());
-		insertParameters.put("posturl", story.getUrl());
+		insertParameters.put("posturl", commonDAO.urlgenerator(story.getName(), "post"));
 		
 		Number id = insert.executeAndReturnKey(insertParameters);
 		System.out.println(id);
-		int check2= insertupdate(story,getStorybyID(id.intValue()));
+		int check2= insert(story, (Long) id);
 		if (check2==1)
 		{
 		return 1;
@@ -97,17 +100,57 @@ public class StoryDAO {
 		else {return 0;}
 	}
 	
+	
+
+	private int insert(Story story, Long i) {
+		if(story.getAuthorid()!=null)
+		 {
+			jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "authorid" , story.getAuthorid() );
+		 } 
+		if(story.getBlogid()!=null)
+		 { jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getBlogid(), i, "blogid" );			
+		 } 
+		else {
+			if(story.getBlog()!=null)
+			{
+				long blogid= insertupdateblog(story.getBlog(), i);
+				jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "blogid" , blogid );
+			}
+			else {
+				return 0;
+			}
+		}
+		if(story.getCommentstatus()!=null)
+		 {
+			jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "commentstatus" , story.getCommentstatus() );
+		 } 
+		if(story.getExcerpt()!=null)
+		 {
+			jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "excerpt" , story.getExcerpt() );
+		 } 
+		if(story.getFeaturedimage()!=null)
+		 {	
+			jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "featuredimage" , story.getFeaturedimage() );
+		 }
+		if(story.getPostparent()!=null)
+		 {	
+			jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", i, "postparent" , story.getPostparent() );
+		 }
+		
+		return 1;
+	}
+	
 	private int insertupdate(Story story, Story storybyID) {
 		if(story.getAuthorid()!=null)
 		 {
 			 if(storybyID.getAuthorid()!=null)
 			 {
-				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getAuthorid(), storybyID.getId(), "certificate" );
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getAuthorid(), storybyID.getId(), "authorid" );
 					 
 			 }
 			 else{
 				
-				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "certificate" , story.getAuthorid() );
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", storybyID.getId(), "authorid" , story.getAuthorid() );
 				
 			 }
 		 } 
@@ -126,7 +169,13 @@ public class StoryDAO {
 		 } 
 		else {
 			if(story.getBlog()!=null)
-				insertupdateblog(story.getBlog());
+			{
+				Long blogid= insertupdateblog(story.getBlog(), story.getId());
+				jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",blogid, storybyID.getId(), "blogid" );
+			}
+			else {
+				return 0;
+			}
 		}
 		if(story.getCommentstatus()!=null)
 		 {
@@ -184,8 +233,16 @@ public class StoryDAO {
 		return 1;
 	}
 
-	private void insertupdateblog(Text blog) {
-		
+	private long insertupdateblog(Text blog, long postid) {
+		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
+	            .withTableName("text").usingColumns("content",  "textxtra", "postid")
+	            .usingGeneratedKeyColumns("textid");
+		Map<String,Object> insertParameters = new HashMap<String, Object>();
+		insertParameters.put("content", blog.getContent());
+		insertParameters.put("textxtra", blog.getTextextra());
+		insertParameters.put("postid", postid);
+		Number id = insert.executeAndReturnKey(insertParameters);
+		return (Long) id;
 		
 	}
 
