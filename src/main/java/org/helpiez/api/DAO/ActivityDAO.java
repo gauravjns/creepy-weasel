@@ -11,6 +11,8 @@ import java.util.List;
 import org.helpiez.api.model.Activity;
 import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Events;
+import org.helpiez.api.model.Follow;
+import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -42,6 +44,28 @@ public class ActivityDAO {
 	    	activity.setStatus(rs.getShort("status"));
 	        return activity;
 		}
+	}
+
+	public int update(Activity activity) {
+		return jdbc.update("UPDATE activity SET type=?, status= ?, actxtra=? WHERE actid =? ",activity.getType(),activity.getStatus(), activity.getExtra(), activity.getId());
+		
+	}
+
+	public Boolean save(Activity activity) {
+		int i= jdbc.update("INSERT INTO activity (actid, userid, actmeta, actmetaid, type, status, actxtra) VALUES ( Default , ? , ?, ?, ?, ?, ?)",activity.getUserid() , activity.getActmeta(),activity.getActmetaid() , activity.getType(), activity.getStatus(), activity.getExtra());
+		if ( i==1)
+		{
+			return true;
+		}
+		else {
+			return false ; 
+		}
+	}
+
+	public List<Activity> getActivity(String meta, int id, String type) {
+		List<Activity> lstact = new ArrayList<Activity>();
+		lstact =jdbc.query("SELECT * FROM activity WHERE actmeta=? and actmetaid=? and type=?", new actMapper(), meta, id, type);
+		return lstact;
 	}
 	
 	

@@ -6,8 +6,8 @@ public class Activity {
 	
 	private long id;
 	private long userid;
-	private String actmeta;
-	private long actmetaid;
+	private String actmeta; // USER, POST, GROUP
+	private long actmetaid; //
 	private String type; // UPVOTE, DOWNVOTE, APPLY (event), JOURNEY
 	private short status; // 1-APPLY 2-SHORTLIST, 3-SELECT , 4-REJECT , 5-COMPLETE 6- PARTIAL
 	private String extra; // Text id number for answer in case of apply, Text in case of auto generated journey

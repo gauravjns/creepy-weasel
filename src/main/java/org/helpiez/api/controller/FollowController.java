@@ -114,7 +114,8 @@ public class FollowController {
 		return followDAO.getFollowedPost(id, "story");
     }
     
-	// Get follower for anytype user, post, group
+	// This Function should be last in this class
+    // Get follower for any type user, post, group
 	@RequestMapping(value="/{meta}/{id}", method=RequestMethod.GET)
     public List<User> getfollower(@PathVariable("id") int id,@PathVariable("meta") String meta) {	    	
 		return followDAO.getFollower(meta, id); 
