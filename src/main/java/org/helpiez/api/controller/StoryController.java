@@ -1,8 +1,6 @@
 package org.helpiez.api.controller;
 
 import org.helpiez.api.DAO.StoryDAO;
-import org.helpiez.api.model.Activity;
-import org.helpiez.api.model.Comments;
 import org.helpiez.api.model.Story;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

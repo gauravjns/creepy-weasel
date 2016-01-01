@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.helpiez.api.DAO.ActivityDAO;
 import org.helpiez.api.model.Activity;
-import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

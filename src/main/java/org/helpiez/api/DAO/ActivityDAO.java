@@ -2,17 +2,10 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.helpiez.api.model.Activity;
-import org.helpiez.api.model.CommonMeta;
-import org.helpiez.api.model.Events;
-import org.helpiez.api.model.Follow;
-import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

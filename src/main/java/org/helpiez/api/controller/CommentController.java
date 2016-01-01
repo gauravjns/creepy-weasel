@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.helpiez.api.DAO.CommentDAO;
 import org.helpiez.api.model.Comments;
-import org.helpiez.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

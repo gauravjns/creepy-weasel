@@ -2,11 +2,7 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 
-
-import org.helpiez.api.model.Events;
-import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

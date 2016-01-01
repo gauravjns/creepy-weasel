@@ -4,7 +4,6 @@ package org.helpiez.api.DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -248,7 +247,7 @@ public class StoryDAO {
 	public Story storymetamapper(Story story)throws ParseException
 	{
 		List<CommonMeta> ls= new ArrayList<CommonMeta>();
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");			
+    	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");			
     	ls = jdbc.query("SELECT * FROM postmeta WHERE postid=?", new postMetaMapper(), story.getId());
 		for (CommonMeta groupmeta : ls) {
 			String key= groupmeta.getKey();

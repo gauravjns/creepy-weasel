@@ -23,11 +23,6 @@ public class FollowDAO {
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private GroupDAO groupDAO;
-	
-	@Autowired
-	private PostDAO postDAO;
 	
 	
 	public int save(Follow follow) {
