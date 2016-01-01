@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.helpiez.api.model.CommonMeta;
-import org.helpiez.api.model.Events;
 import org.helpiez.api.model.Story;
 import org.helpiez.api.model.Text;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -35,21 +35,21 @@ public class MsgController {
     }
 
 	// Insert 
-		@RequestMapping(value="/", method=RequestMethod.POST)
-	    public int insertMsg(@RequestBody Message msg) {
-			// check whether in proper format
-			if (msg.getMessage()!=null && msg.getMessage().trim().length()>0 && msg.getUserid()>0  && msg.getUserto()>0 )
-			{
-				return msgDAO.save(msg);
-			}
-			else{ return 0;}
-	    }	
+	@RequestMapping(value="/", method=RequestMethod.POST)
+    public int insertMsg(@RequestBody Message msg) {
+		// check whether in proper format
+		if (msg.getMessage()!=null && msg.getMessage().trim().length()>0 && msg.getUserid()>0  && msg.getUserto()>0 )
+		{
+			return msgDAO.save(msg);
+		}
+		else{ return 0;}
+    }	
 		
 	// Viewed message
-		@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	    public int viewMsgbyId(@PathVariable("id") long id) {	    	
-			 return msgDAO.viewed(id); 
-	    }
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+    public int viewMsgbyId(@PathVariable("id") long id) {	    	
+		 return msgDAO.viewed(id); 
+    }
 		
 
 }

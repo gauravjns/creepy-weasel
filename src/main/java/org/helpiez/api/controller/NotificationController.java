@@ -3,9 +3,7 @@ package org.helpiez.api.controller;
 
 import java.util.List;
 
-import org.helpiez.api.DAO.NotificationDAO;
-import org.helpiez.api.model.Comments;
-import org.helpiez.api.model.Message;
+import org.helpiez.api.DAO.NotificationDAO;	
 import org.helpiez.api.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
