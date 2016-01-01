@@ -14,6 +14,9 @@ public class PostDAO {
 	@Autowired
     protected JdbcTemplate jdbc;
 	
+	@Autowired
+	private CommonDAO commonDAO;
+	
 	public Post getpostbyid(long id) {
 		Post post= new Post();
 		post =jdbc.queryForObject("SELECT * FROM posts WHERE postid=?", new shortpostMapper(), id);
@@ -34,5 +37,15 @@ public class PostDAO {
 		        return post;
      }
  }
+
+	public int update(Post post) {
+		return jdbc.update("INSERT INTO posts (postid, postname, posttype , postxtra , poststatus, postgroupid , posturl) VALUES ( Default , ? , ?, ?, ?, ?, ?)",post.getName() , post.getType(),post.getExtra() , post.getStatus(), post.getGroupid(), commonDAO.urlgenerator(post.getName(), "post"));
+		
+	}
+
+	public int save(Post post) {
+		return jdbc.update("UPDATE posts SET postname=?, poststatus=?, postxtra=?, postgroupid=? WHERE postid =? ",post.getName(), post.getStatus(), post.getExtra(), post.getGroupid(), post.getId());
+		
+	}
 
 }

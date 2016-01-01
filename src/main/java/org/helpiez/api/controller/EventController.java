@@ -19,7 +19,7 @@ public class EventController {
 	
 
   	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public Events getEventbyId(@PathVariable("id") int id) {	    	
+    public Events getEventbyId(@PathVariable("id") long id) {	    	
   		Events event = eventdao.getEventbyID(id); 
     	return event;
     }
