@@ -9,7 +9,7 @@ public class Activity {
 	private long userid;
 	private String actmeta; // USER, POST, GROUP, COMMENT
 	private long actmetaid; //
-	private String type; // UPVOTE, DOWNVOTE, APPLY (event)
+	private String type; // UPVOTE, DOWNVOTE, APPLY (event), CREATE
 	private short status; // 1-APPLY 2-SHORTLIST, 3-SELECT , 4-REJECT , 5-COMPLETE 6- PARTIAL
 	private String extra; // Text id number for answer in case of apply, Text in case of auto generated journey
 	private Timestamp timestamp;

@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 
 public class Post {
 	private long id;
-	private String name; // 5000 words Title in blog, internship, event
-	private String type; // INTERN, VOLUNTEER, JOB, EVENT, STORY
-	private String extra;
-	private short status; // 1- created visible only to creator 2- active (visible to all) 3- deleted (only shown to administrator)
-	private long groupid;  //
+	private String name; // 5000 words Title in blog, internship, event && text in feeds
+	private String type; // intern, volunteer, job, event, story, text, image, video, journey, wallpost, batch
+	private String extra;// 									  		file location 
+	private short status; // 1- created visible only to creator 2- active (visible to all) 3- deleted (only shown to administrator) 4- visible to group 
+	private long groupid;  // if 0 mean created by user
 	private Timestamp timestamp;
 	private String url;
 	
