@@ -29,9 +29,9 @@ public class Emailsjobs {
     	if (lst.size()>0)
     	{
     		for (Email email : lst) {
-				int success=sendjava(email);
+				int success=sendaws(email);
 				if(success>0)
-					emailDAO.update(email);	
+					emailDAO.update(email.getMsgid(), success);	
 			}
     		
     	}
@@ -40,7 +40,7 @@ public class Emailsjobs {
     	}
     }
 
-	private int sendjava(Email email) {
+	private int sendaws(Email email) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

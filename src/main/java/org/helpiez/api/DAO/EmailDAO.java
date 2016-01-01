@@ -41,9 +41,8 @@ public class EmailDAO {
      }
  }
 
-	public void update(Email email) {
-		// TODO Auto-generated method stub
-		
+	public void update(long id, int success) {
+	
 	}
 
 
