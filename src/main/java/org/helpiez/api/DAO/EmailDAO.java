@@ -42,7 +42,7 @@ public class EmailDAO {
  }
 
 	public void update(long id, int success) {
-	
+		 jdbc.update("UPDATE email SET success=? WHERE msgid =? ",success, id);
 	}
 
 
