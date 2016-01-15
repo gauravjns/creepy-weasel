@@ -8,7 +8,7 @@ public class Notification {
 	private long userid;
 	private String text;  //5000 char
 	private Timestamp timestamp; // Time generated, Time viewed
-	private String meta;
+	private String meta; // still not defined
 	private short viewed; // 0 - not viewed 1- viewed by clicking 2- dismissed 
 	private String link; 
 	private String image;

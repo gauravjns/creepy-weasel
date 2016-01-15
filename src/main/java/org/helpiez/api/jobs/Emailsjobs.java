@@ -20,9 +20,9 @@ public class Emailsjobs {
 	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 600000)
     public void emailsender() {
-        //System.out.println("The time is now " + dateFormat.format(new Date()));
+        /*//System.out.println("The time is now " + dateFormat.format(new Date()));
     	Date date= new Date();
     	Timestamp time= new Timestamp(date.getTime());
     	List<Email> lst = emailDAO.getEmailList(time);
@@ -37,7 +37,7 @@ public class Emailsjobs {
     	}
     	else {
     		System.out.println("No email to send");
-    	}
+    	}*/
     }
 
 	private int sendaws(Email email) {

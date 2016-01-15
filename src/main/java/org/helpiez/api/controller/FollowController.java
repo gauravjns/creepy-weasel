@@ -22,6 +22,7 @@ public class FollowController {
 	private FollowDAO followDAO;
 	
 	
+	
 	@RequestMapping(value="/", method=RequestMethod.PUT)
     public int updateStatus(@RequestBody Follow follow) {	 
   		if ( follow.getUserid()!=0 || follow.getMeta()!=null || follow.getMetaid()!=0 || follow.getType()!=0 ) 
@@ -45,6 +46,17 @@ public class FollowController {
 			else 
 			{return 0;}
 			}
+		else return 0;
+		
+    }
+	@RequestMapping(value="/", method=RequestMethod.DELETE)
+    public int followdelete(@RequestBody Follow follow) {	 
+		if ( follow.getUserid()!=0 || follow.getMeta()!=null || follow.getMetaid()!=0 || follow.getType()!=0) 
+			{	
+
+			return followDAO.delete(follow);
+			}
+			
 		else return 0;
 		
     }
@@ -111,6 +123,13 @@ public class FollowController {
     }@RequestMapping(value="/{id}/story/", method=RequestMethod.GET)
     public List<Post> getstoryfollowlist(@PathVariable("id") int id) {	    	
 		return followDAO.getFollowedPost(id, "story");
+    }
+    
+    // get following for particular entity
+    @RequestMapping(value="/{userid}/{meta}/{id}/{type}", method=RequestMethod.GET)
+    public int checkfollowing(@PathVariable("userid") long userid,@PathVariable("type") int type,@PathVariable("id") long id,@PathVariable("meta") String meta) {	    	
+		return followDAO.checkfollowing(userid, meta, id, type); 
+    	
     }
     
 	// This Function should be last in this class

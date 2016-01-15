@@ -1,6 +1,7 @@
 package org.helpiez.api.DAO;
 
 import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -425,5 +426,32 @@ public class UserDAO {
 	            return usermeta;
 	        }
 	    }
+
+		public User getuserbyurl(String url) {
+			User user= new User();
+			user =jdbc.queryForObject("SELECT * FROM user WHERE userurl=?", new userMapper(), url);
+			return user;
+		}
+
+		public long checkuser(String email, String pass) {
+			try 
+			{String passa= jdbc.queryForObject("SELECT userpassword FROM user WHERE useremail=?", String.class, email);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(pass.getBytes());
+			byte[] digest = md.digest();
+			StringBuffer sb = new StringBuffer();
+			for (byte b : digest) {
+				sb.append(String.format("%02x", b & 0xff));
+			}
+			pass= sb.toString();
+			if (passa.equals(pass))
+				{ User user =getuserbyemail(email);
+				return user.getId();}
+			else {return -1;}
+			}
+			catch(Exception e)
+			{return 0;}
+			
+		}
 	
 }

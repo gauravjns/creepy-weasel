@@ -119,6 +119,23 @@ public class FollowDAO {
     }
 	   }
 
+	public int checkfollowing(long userid, String meta, long id, int type) {
+		try
+		{Follow follow=jdbc.queryForObject("SELECT * FROM follow WHERE followmeta=? and followmetaid=? and userid=? and followtype=?", new followMapper(), meta, id, userid, type);
+		   if (follow!=null)
+				 return follow.getStatus();
+		   return 0;
+		}catch(Exception e)
+		{
+		   return -1;
+		}
+	}
+	public int delete(Follow follow) {
+		
+		return jdbc.update("Delete from follow where  userid=?  and followmeta=? and followmetaid=? and followtype=? ", follow.getUserid() , follow.getMeta(), follow.getMetaid(), follow.getType());
+		
+	}
+
 	
 	
 	

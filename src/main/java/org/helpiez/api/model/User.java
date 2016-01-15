@@ -9,7 +9,7 @@ public class User {
 	private long id;
 	private String email;
 	private String name;
-	private short status;
+	private short status;    // 1- Recently added , email verification needed to be active, 2- Active profile, 3- Lost password, email send after successful password change to 2, 4- Profile deactivated
 	private Timestamp timestamp;
 	private String img;
 	private String url;
@@ -27,7 +27,7 @@ public class User {
 	private String city;
 	private String about;
 	private String resume;
-	private String fname;
+	private String fname;  // For new user mandatory 
 	private String lame;
 	
 	

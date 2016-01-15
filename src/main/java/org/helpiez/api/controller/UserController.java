@@ -27,6 +27,16 @@ public class UserController {
 	    	return user;
 	    }
 	  	
+	  	@RequestMapping(value="/url/{name}", method=RequestMethod.GET)
+	    public User getUserbyURl(@PathVariable("name") String name) {	    	
+	    	User user = userdao.getuserbyurl(name); 
+	    	return user;
+	    }
+	  	
+	  	@RequestMapping(value="/login/{email}/{password}", method=RequestMethod.GET)
+	    public long getUserforlogin(@PathVariable("email") String email,@PathVariable("password") String pass) {	    	
+	    	return userdao.checkuser(email, pass);
+	    }
 	  	@RequestMapping(value="/", method=RequestMethod.POST)
 	    public Boolean insertUser(@RequestBody User user, @RequestParam(value = "password", required = false)  String password) {	 
 	    	return userdao.save(user, password);

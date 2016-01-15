@@ -20,8 +20,8 @@ public class NotificationDAO {
 		notification =jdbc.queryForObject("SELECT * FROM notification WHERE notid=?", new notMapper(), id);
 		return notification;
 	}
-	public List<Notification> getNotificationList(int id) {
-		return jdbc.query("SELECT * FROM notification WHERE userid=? order by timestamp Desc", new notMapper(), id);	
+	public List<Notification> getNotificationList(int id, long max) {
+		return jdbc.query("SELECT * FROM notification WHERE userid=? and notid>? ", new notMapper(), id,max);	
 	}
 	
 	public int save(Notification notification) {
