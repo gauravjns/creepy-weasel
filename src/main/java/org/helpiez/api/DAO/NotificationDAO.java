@@ -2,6 +2,7 @@ package org.helpiez.api.DAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.helpiez.api.model.Notification;
@@ -20,7 +21,7 @@ public class NotificationDAO {
 		notification =jdbc.queryForObject("SELECT * FROM notification WHERE notid=?", new notMapper(), id);
 		return notification;
 	}
-	public List<Notification> getNotificationList(int id, long max) {
+	public List<Notification> getNotificationList(long id, long max) {
 		return jdbc.query("SELECT * FROM notification WHERE userid=? and notid>? ", new notMapper(), id,max);	
 	}
 	
@@ -50,6 +51,36 @@ public class NotificationDAO {
 	            return notification;
 	        }
 	    }
+
+	public List<Notification> getNotificationListfirst(long id) {
+		List <Notification> lst = new ArrayList<Notification>();
+		long lastviewed=0;
+		try { 
+			// algo for selecting first not thrown
+			List <Notification> lst1 = jdbc.query("SELECT *  from notification where userid=? and viewed=1 order by notid limit 1", new notMapper(), id);
+			if (lst1.size()>0)
+			{
+				lastviewed= lst1.get(0).getNotid();
+			}
+			lst= jdbc.query("SELECT * FROM notification WHERE userid=? and notid>? ", new notMapper(),id, lastviewed-1);
+			// Fallback case
+			if (lst.size()>4)
+			{
+				return lst;
+			}
+			else {
+				lst1= jdbc.query("SELECT * FROM notification WHERE userid=? order by notid DESC limit 5 ", new notMapper(),id);
+				lastviewed=lst1.get(lst1.size()-1).getNotid();
+				lst= jdbc.query("SELECT * FROM notification WHERE userid=? and notid>? ", new notMapper(),id, lastviewed-1);
+				return lst;
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
+		return lst;
+	}
 
 	
 

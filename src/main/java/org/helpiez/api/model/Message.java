@@ -12,7 +12,25 @@ public class Message {
 	private short viewed; // 1 - not viewed 2- viewed 
 	private long userto;
 	
+	// For sender information
+	private String userimg;
+	private String userlink;
 	
+	
+	
+	
+	public String getUserimg() {
+		return userimg;
+	}
+	public void setUserimg(String userimg) {
+		this.userimg = userimg;
+	}
+	public String getUserlink() {
+		return userlink;
+	}
+	public void setUserlink(String userlink) {
+		this.userlink = userlink;
+	}
 	public short getViewed() {
 		return viewed;
 	}

@@ -1,6 +1,7 @@
 package org.helpiez.api.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -29,8 +30,12 @@ public class NotificationController {
     }
 	
 	@RequestMapping(value="/user/{id}", method=RequestMethod.GET)
-    public List<Notification> getNots(@PathVariable("id") int id ,@RequestParam(value="max", required=false, defaultValue = "1" ) long max ) {
-		List<Notification> lst = notDAO.getNotificationList(id,max); 
+    public List<Notification> getNots(@PathVariable("id") long id ,@RequestParam(value="max", required=false, defaultValue = "1" ) long max ) {
+		List<Notification> lst = new ArrayList<Notification>();
+		if (max>1)
+			{lst = notDAO.getNotificationList(id,max);}
+		else 
+			{lst= notDAO.getNotificationListfirst(id);}
     	return lst;
     }
 	
@@ -48,7 +53,7 @@ public class NotificationController {
 	
 
 	// Viewed message
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public int viewNotbyId(@PathVariable("id") long id) {	    	
 		 return notDAO.viewed(id); 
 	}
