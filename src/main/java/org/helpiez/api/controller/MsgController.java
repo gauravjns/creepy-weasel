@@ -25,26 +25,33 @@ public class MsgController {
 		Message msg = msgDAO.getMsgbyID(id); 
     	return msg;
     }
-	
+	// limit 0 means no limit , viewed 0 mean any msg
 	@RequestMapping(value=URI_Constants.GET_MESSAGES_USER, method=RequestMethod.GET)
-    public List<Message> getMsgbyUserId(@PathVariable("userid") int id, @RequestParam(value="max", required=false, defaultValue = "1" ) long max) {	    	
+    public List<Message> getMsgbyUserId(@PathVariable("userid") int id, @RequestParam(value="max", required=false, defaultValue = "1" ) long max,
+    		@RequestParam(value="limit", required=false, defaultValue = "5" ) int limit, @RequestParam(value="viewed", required=false, defaultValue = "1" ) int viewed) {	    	
 		List<Message> lstmsg= new ArrayList<Message>();
 		if (max>1)
 		{
 			lstmsg=msgDAO.getMsgslist(id, max);
 		}	
 		else {
-			lstmsg= msgDAO.getMsgsforuser(id);
+			lstmsg= msgDAO.getMsgsforuser(id, limit, viewed);
 		}
 		return lstmsg;
         }
 	
 	// limit and offset lagao
 	@RequestMapping(value=URI_Constants.GET_MESSAGES_BETWEEN_USERS, method=RequestMethod.GET)
-    public List<Message> getMsgs(@PathVariable("userid") long id,@PathVariable("userid2") long id2) {	    	
-		return msgDAO.getMsgs(id, id2); 
-   
+    public List<Message> getMsgs(@RequestParam(value="userid", required=false, defaultValue="0") long id,@RequestParam(value="userid2", required= false, defaultValue="0") long id2,@RequestParam(value="thread", required=false, defaultValue="0") long thread) {	    	
+		if (id>0 && id2>0)
+			return msgDAO.getMsgs(id, id2); 
+		if (thread >0)
+			return msgDAO.getMsgsbythread(thread);
+		return null;
+			
     }
+	
+	
 
 	// Insert 
 	@RequestMapping(value=URI_Constants.POST_MESSAGE, method=RequestMethod.POST)

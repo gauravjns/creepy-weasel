@@ -17,7 +17,7 @@ public class URI_Constants {
 	
 	// MESSAGE Controller
 	public static final String GET_MESSAGE_BY_ID="/messages/{id}";
-	public static final String GET_MESSAGES_BETWEEN_USERS="/messages/{userid}/{userid2}";
+	public static final String GET_MESSAGES_BETWEEN_USERS="/messages/2users/";
 	public static final String POST_MESSAGE="/messages/";
 	public static final String VIEW_MESSAGE="/messages/{id}";
 	public static final String GET_MESSAGES_USER="/messages/user/{userid}"; // max parameter

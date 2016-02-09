@@ -64,7 +64,7 @@ public class NotificationDAO {
 			}
 			lst= jdbc.query("SELECT * FROM notification WHERE userid=? and notid>? ", new notMapper(),id, lastviewed-1);
 			// Fallback case
-			if (lst.size()>4)
+			if (lst.size()>4 && lastviewed!=0)
 			{
 				return lst;
 			}

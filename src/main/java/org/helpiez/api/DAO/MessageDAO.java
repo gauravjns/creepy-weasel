@@ -26,23 +26,53 @@ public class MessageDAO {
 	
 	// sending all the updates so that client remain updated
 	public List<Message> getMsgslist(int id, long max) {
-		List<Message> msList = jdbc.query("select msgid,user.userimg,user.userurl, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid and usertoid=? and msgid>? ", new msgMapper1(),id, max);
+		List<Message> msList = jdbc.query("select msgid,user.userimg,user.userurl,user.username, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid and usertoid=? and msgid>? ", new msgMapper1(),id, max);
 		return msList;
 	}
 
 	// Take all threads which have one unread msg and send top msg from that htread
 	// This also select thread which other person have not read (neg impression of platform)
-	public List<Message> getMsgsforuser(long userid) {
+	public List<Message> getMsgsforuser(long userid, int limit, int viewed) {
 		List <Message> lst = new ArrayList<Message>();
 		Message msg= null;
 		try{
-			List<Message> thread = jdbc.query("select DISTINCT(thread) from message where userid=? or usertoid=? and viewed=1 order by timestamp DESC", new threadMapper(), userid, userid);
+			List<Message> thread = jdbc.query("select thread from message where userid=? or usertoid=? and viewed=? group by thread ORDER BY max(timestamp) desc", new threadMapper(), userid, userid, viewed);
+			if (thread.size()<limit)
+			{
+				thread = jdbc.query("select thread from message where userid=? or usertoid=? group by thread order by max(timestamp) DESC limit 5", new threadMapper(), userid, userid);
+			}
+			if (viewed==0 && limit ==0)
+			{
+				thread = jdbc.query("select thread from message where userid=? or usertoid=? group by thread order by max(timestamp) DESC ", new threadMapper(), userid, userid);
+				
+				if (thread!=null && thread.size()>0)
+				{
+					for (Message message : thread) {
+						try 
+						{
+							msg= jdbc.queryForObject("select msgid,user.userimg,user.userurl,user.username, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid  and thread=?  ORDER BY timestamp  DESC limit 1 ", new msgMapper1(), message.getThread());
+							if (msg.getUserid()==userid)
+							{msg= jdbc.queryForObject("select msgid,user.userimg,user.userurl,user.username, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.usertoid=user.userid  and thread=?  ORDER BY timestamp  DESC limit 1 ", new msgMapper1(), message.getThread());
+							}
+						}
+						catch(Exception e)
+						{}
+						
+						if(msg!=null)
+						{
+							lst.add(msg);
+							msg=null;
+						}
+					}
+				}
+				return lst;
+			}
 			
 			if (thread!=null && thread.size()>0)
 			{
 				for (Message message : thread) {
 					try 
-					{msg= jdbc.queryForObject("select msgid,user.userimg,user.userurl, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid and usertoid=? and viewed=1 and thread=?  ORDER BY timestamp  DESC limit 1 ", new msgMapper1(),userid, message.getThread());}
+					{msg= jdbc.queryForObject("select msgid,user.userimg,user.userurl,user.username, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid and usertoid=? and viewed=1 and thread=?  ORDER BY timestamp  DESC limit 1 ", new msgMapper1(),userid, message.getThread());}
 					catch(Exception e)
 					{}
 					
@@ -123,6 +153,12 @@ public class MessageDAO {
 		
 		
 	}
+	
+
+	public List<Message> getMsgsbythread(long thread) {
+		return jdbc.query("select msgid,user.userimg,user.userurl,user.username, message.userid, msg, thread, timestamp, usertoid, viewed from message, user where message.userid=user.userid and thread=? order by msgid", new msgMapper1(), thread);	
+	}
+
 	public int threadfinder(long userto, long userid) {
 		Message msg= null;
 		try {
@@ -172,6 +208,7 @@ public class MessageDAO {
        	msg.setThread(rs.getInt("thread"));
        	msg.setUserto(rs.getLong("usertoid"));
        	msg.setMessage(rs.getString("msg"));
+       	msg.setUsername(rs.getString("username"));
        	msg.setTimestamp(rs.getTimestamp("timestamp"));
        	msg.setViewed(rs.getShort("viewed"));
            return msg;

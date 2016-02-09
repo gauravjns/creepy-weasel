@@ -15,10 +15,17 @@ public class Message {
 	// For sender information
 	private String userimg;
 	private String userlink;
+	private String username;
 	
 	
 	
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getUserimg() {
 		return userimg;
 	}
