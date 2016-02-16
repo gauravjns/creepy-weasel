@@ -31,6 +31,13 @@ public class EventsDAO {
 		event =jdbc.queryForObject("SELECT * FROM posts WHERE postid=?", new eventMapper(), id);
 		return event;	
 	}
+
+	public Events getEvent(String urlname) {
+		Events event= new Events();
+		event =jdbc.queryForObject("SELECT * FROM posts WHERE posturl=?", new eventMapper(), urlname);
+		return event;
+	}
+	
 	public Boolean save(Events event) {
 		
 	SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
@@ -151,6 +158,29 @@ public class EventsDAO {
 				 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "deadline" , event.getDeadline() );
 			 }
 		 }
+		if(event.getStarttime()!=null)
+		 {
+			 if(event2update.getStarttime()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getStarttime(), event2update.getId(), "starttime" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "starttime" , event.getStarttime() );
+			 }
+		 }
+		if(event.getEndtime()!=null)
+		 {
+			 if(event2update.getEndtime()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getEndtime(), event2update.getId(), "endtime" );
+					 
+			 }
+			 else{
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid,postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "endtime" , event.getEndtime() );
+			 }
+		 }
+		
 		if(event.getDescription()!=null)
 		 {
 			 if(event2update.getDescription()!=null)
@@ -320,6 +350,14 @@ public class EventsDAO {
 				{
 					event.setDeadline(Timestamp.valueOf(groupmeta.getValue()));
 				}
+				if(key.equals("starttime"))
+				{
+					event.setStarttime(Timestamp.valueOf(groupmeta.getValue()));
+				}
+				if(key.equals("endtime"))
+				{
+					event.setEndtime(Timestamp.valueOf(groupmeta.getValue()));
+				}
 				if(key.equals("commentstatus"))
 				{
 					event.setCommentstatus(groupmeta.getValue());
@@ -371,6 +409,7 @@ public class EventsDAO {
 	            return eventmeta;
 	        }
 	    }
+
 
 	
 

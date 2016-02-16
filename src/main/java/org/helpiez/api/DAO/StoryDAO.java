@@ -34,6 +34,14 @@ public class StoryDAO {
 		return story;		
 	}
 	
+
+	public Story getStory(String uString) {
+		Story story = new Story();
+		story =jdbc.queryForObject("SELECT * FROM posts WHERE posturl=?", new storyMapper(), uString);
+		return story;
+	}
+
+	
 	public boolean update(Story story, Story story2) {
 		if(story.getName()!=null)
 		{

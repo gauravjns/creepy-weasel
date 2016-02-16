@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/activitys")
+@RequestMapping(value="/")
 public class ActivityController {
 
 	@Autowired
     private ActivityDAO activitydao;
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@RequestMapping(value=URI_Constants.GET_ACTIVITY_BY_ID, method=RequestMethod.GET)
     public Activity getActivitybyId(@PathVariable("id") int id) {	    	
   		Activity activity = activitydao.getActivitybyID(id); 
     	return activity;
     }
 	
-	@RequestMapping(value="/", method=RequestMethod.PUT)
+	@RequestMapping(value=URI_Constants.PUT_ACTIVITY, method=RequestMethod.PUT)
     public int updateActivity(@RequestBody Activity activity) {	 
 		return activitydao.update(activity);
     }
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value=URI_Constants.POST_ACTIVITY, method=RequestMethod.POST)
     public Boolean insertActivity(@RequestBody Activity activity) {	 
     	return activitydao.save(activity);
     }
@@ -38,7 +38,7 @@ public class ActivityController {
 	
 	// This Function should be last in this class
     // Get follower for anytype user, post, group
-	@RequestMapping(value="/{meta}/{id}/{type}", method=RequestMethod.GET)
+	@RequestMapping(value=URI_Constants.GET_ACTIVITY, method=RequestMethod.GET)
     public List<Activity> getActivity(@PathVariable("id") int id,@PathVariable("meta") String meta,@PathVariable("type") String type) {	    	
 		return activitydao.getActivity(meta, id, type); 
     	

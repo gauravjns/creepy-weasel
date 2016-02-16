@@ -21,7 +21,8 @@ public class Events extends Post
 	private String question;// (question, type, qmeta) 
 	private String commentstatus; // 1-for comment 2- for comment closed 3- no comment allowed
 	
-	
+	private Timestamp starttime;
+	private Timestamp endtime;
 	
 	public String getQuestion() {
 		return question;
@@ -108,6 +109,19 @@ public class Events extends Post
 	public void setDeadline(Timestamp deadline) {
 		this.deadline = deadline;
 	}
+	public Timestamp getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(Timestamp starttime) {
+		this.starttime = starttime;
+	}
+	public Timestamp getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Timestamp endtime) {
+		this.endtime = endtime;
+	}
+	
 	
 
 }

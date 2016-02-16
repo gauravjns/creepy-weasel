@@ -28,6 +28,14 @@ public class UserDAO {
 	
 	private SecureRandom random = new SecureRandom();
 	
+	public String getUsermeta(int parseInt, String meta) {
+		List<CommonMeta>  cms=jdbc.query("SELECT * FROM usermeta WHERE userid=? and usermetakey=?", new userMetaMapper(),  parseInt, meta);
+		if (cms.size()>0)
+			{return cms.get(0).getValue();}
+		else{
+			return "--";
+		}
+	}
 	public User getuserbyid(long id) {
 		User user= new User();
 		user =jdbc.queryForObject("SELECT * FROM user WHERE userid=?", new userMapper(), id);
@@ -453,5 +461,7 @@ public class UserDAO {
 			{return 0;}
 			
 		}
+
+		
 	
 }

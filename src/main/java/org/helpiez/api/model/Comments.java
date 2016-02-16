@@ -15,7 +15,30 @@ public class Comments {
 	private String upvote;
 	private String downvote;
 	
+	private String username;
+	private String userimage;
+	private String userurl;
 	
+	
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUserimage() {
+		return userimage;
+	}
+	public void setUserimage(String userimage) {
+		this.userimage = userimage;
+	}
+	public String getUserurl() {
+		return userurl;
+	}
+	public void setUserurl(String userurl) {
+		this.userurl = userurl;
+	}
 	public String getUpvote() {
 		return upvote;
 	}
