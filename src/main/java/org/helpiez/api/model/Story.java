@@ -1,6 +1,6 @@
 package org.helpiez.api.model;
 
-//Article, Long Text etc 
+//Article, Long Text etc type  
 public class Story extends Post {
 	
 	private String authorid; // story author 

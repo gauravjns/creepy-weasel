@@ -82,7 +82,7 @@ public class StoryDAO {
 			return false;
 		}
 	}
-	public int createStory(Story story) {
+	public long createStory(Story story) {
 		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
 		            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl")
@@ -101,7 +101,7 @@ public class StoryDAO {
 		int check2= insert(story, (Long) id);
 		if (check2==1)
 		{
-		return 1;
+		return (Long)id;
 		}
 		else {return 0;}
 	}
@@ -165,7 +165,10 @@ public class StoryDAO {
 			 if(storybyID.getBlogid()!=null)
 			 {
 				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",story.getBlogid(), storybyID.getId(), "blogid" );
-					 
+				 if(story.getBlog()!=null)
+					{
+						Long blogid= insertupdateblog(story.getBlog(), story.getId());
+					}
 			 }
 			 else{
 				
@@ -240,6 +243,14 @@ public class StoryDAO {
 	}
 
 	private long insertupdateblog(Text blog, long postid) {
+		
+		
+		if (blog.getTextid()!=0)
+		{
+			 jdbc.update("UPDATE `Helpiez`.`text` SET `content` = ?, textxtra=? WHERE `text`.`textid` = ?",blog.getContent(), blog.getTextextra(), blog.getTextid() );
+			 return blog.getTextid();
+		}
+		else {
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
 	            .withTableName("text").usingColumns("content",  "textxtra", "postid")
 	            .usingGeneratedKeyColumns("textid");
@@ -249,6 +260,7 @@ public class StoryDAO {
 		insertParameters.put("postid", postid);
 		Number id = insert.executeAndReturnKey(insertParameters);
 		return (Long) id;
+		}
 		
 	}
 

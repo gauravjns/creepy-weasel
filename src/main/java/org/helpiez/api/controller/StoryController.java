@@ -47,7 +47,7 @@ public class StoryController {
     }
   	
   	@RequestMapping(value=URI_Constants.INSERT_STORY, method=RequestMethod.POST)
-    public int createstory(@RequestBody Story story) {	    	
+    public long createstory(@RequestBody Story story) {	    	
   		// check whether in proper format
 		if (story.getName()!=null)
 		{
