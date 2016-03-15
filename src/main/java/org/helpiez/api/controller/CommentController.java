@@ -32,6 +32,11 @@ public class CommentController {
     	return comments;
     }
 	
+	@RequestMapping(value=URI_Constants.INACTIVATE_COMMENT_BY_ID, method=RequestMethod.POST)
+    public int inactivateCommentbyId(@PathVariable("id") int id, @PathVariable("userid") long userid) {	    	
+  		return	commentDAO.inactCommentbyID(id, userid); 
+    	
+    }
 	
 	
 	@RequestMapping(value=URI_Constants.POST_COMMENT, method=RequestMethod.POST)

@@ -34,7 +34,10 @@ public class ActivityController {
     	return activitydao.save(activity);
     }
 	
-	
+	@RequestMapping(value=URI_Constants.DELETE_ACTIVITY, method=RequestMethod.POST)
+    public int deleteActivity(@RequestBody Activity activity) {	 
+    	return activitydao.delete(activity);
+    }
 	
 	// This Function should be last in this class
     // Get follower for anytype user, post, group

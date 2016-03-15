@@ -9,11 +9,14 @@ public class URI_Constants {
 	public static final String GET_ACTIVITY="/activitys/{meta}/{id}/{type}";
 	public static final String POST_ACTIVITY="/activitys/";
 	public static final String PUT_ACTIVITY="/activitys/";
+	public static final String DELETE_ACTIVITY="/activitys/delete/";
+	
 
 	
 	
 	// Comment Controller
 	public static final String GET_COMMENT_BY_ID="/comments/{id}";
+	public static final String INACTIVATE_COMMENT_BY_ID="/comments/inact/{userid}/{id}";
 	public static final String GET_COMMENTS="/comments/{meta}/{id}/{order}";
 	public static final String POST_COMMENT="/comments/";
 	public static final String PUT_COMMENT="/comments/";

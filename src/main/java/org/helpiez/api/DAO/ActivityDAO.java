@@ -60,6 +60,11 @@ public class ActivityDAO {
 		lstact =jdbc.query("SELECT * FROM activity WHERE actmeta=? and actmetaid=? and type=?", new actMapper(), meta, id, type);
 		return lstact;
 	}
+
+	public int delete(Activity id) {
+		return jdbc.update("DELETE FROM activity WHERE actmeta =? and actmetaid=? and userid=? and type=?",id.getActmeta(), id.getActmetaid(), id.getUserid(), id.getType() );
+		
+	}
 	
 	
 
