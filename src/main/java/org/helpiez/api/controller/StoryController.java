@@ -1,5 +1,8 @@
 package org.helpiez.api.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.helpiez.api.DAO.StoryDAO;
 import org.helpiez.api.DAO.UserDAO;
 import org.helpiez.api.model.Story;
@@ -38,6 +41,25 @@ public class StoryController {
   		String str= userDAO.getUsermeta(Integer.parseInt(story.getAuthorid()),"about");
   		res.setAuthordesc(str);
     	return res;
+    }
+  	
+  	@RequestMapping(value=URI_Constants.GET_STORYS, method=RequestMethod.GET)
+    public List<ResStory> getStorys(@PathVariable("type") String type, @PathVariable("id") String id ) {
+  		List<ResStory> lsts= new ArrayList<ResStory>(); 
+  		List<Story> lst = storydao.getStorys(type, id);
+  		if (lst!=null && lst.size()>0)
+  		{
+  			for (Story string : lst) {
+  				ResStory res= new ResStory();
+  		  		Story story = storydao.getStory(string.getUrl()); 
+  		  		res.setStory(story);
+  		  		User user = userDAO.getshortuserbyid(Integer.parseInt(story.getAuthorid()));
+  		  		res.setAuthor(user);
+  		  		lsts.add(res);
+			}
+  		}
+  		
+  		return lsts;
     }
   	
   	@RequestMapping(value=URI_Constants.UPDATE_STORY, method=RequestMethod.PUT)

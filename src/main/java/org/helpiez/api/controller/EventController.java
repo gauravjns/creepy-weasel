@@ -1,7 +1,10 @@
 package org.helpiez.api.controller;
 
+import java.util.List;
+
 import org.helpiez.api.DAO.EventsDAO;
 import org.helpiez.api.model.Events;
+import org.helpiez.api.response.ResActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +41,12 @@ public class EventController {
 	@RequestMapping(value=URI_Constants.GET_EVENT, method=RequestMethod.GET)
     public Events getEvent(@PathVariable("urlname") String urlname ) {	    	
   		Events event = eventdao.getEvent(urlname); 
+    	return event;
+    }
+	
+	@RequestMapping(value=URI_Constants.GET_EVENTS, method=RequestMethod.GET)
+    public List<ResActivity> getEvents(@PathVariable("id") long id ) {	    	
+		List<ResActivity> event = eventdao.getEvents(id); 
     	return event;
     }
 

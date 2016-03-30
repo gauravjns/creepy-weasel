@@ -34,11 +34,13 @@ public class URI_Constants {
 	public static final String UPDATE_EVENT="/events/";
 	public static final String INSERT_EVENT="/events/";
 	public static final String GET_EVENT="/events/name/{urlname}"; 
+	public static final String GET_EVENTS="/events/user/{id}"; 
 	
 	// STORY Controller
 	public static final String GET_STORY_BY_ID="/storys/{id}";
 	public static final String UPDATE_STORY="/storys/";
 	public static final String INSERT_STORY="/storys/";
 	public static final String GET_STORY="/storys/name/{urlname}";
+	public static final String GET_STORYS="/storys/{type}/{id}"; // Remove Blog in storymapper for this api as no need of story content
 	
 }

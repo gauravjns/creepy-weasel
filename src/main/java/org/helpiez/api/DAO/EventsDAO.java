@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Events;
+import org.helpiez.api.model.Group;
+import org.helpiez.api.response.ResActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,6 +27,10 @@ public class EventsDAO {
 	
 	@Autowired
     protected CommonDAO commonDAO;
+	
+
+	@Autowired
+    protected GroupDAO groupDAO;
 	
 	public Events getEventbyID(long id){
 		Events event= new Events();
@@ -410,7 +416,47 @@ public class EventsDAO {
 	        }
 	    }
 
+	public List<ResActivity> getEvents(long id) {
+		List<ResActivity> lsta = new ArrayList<ResActivity>();
+		List<Events> lst= jdbc.query("SELECT status, postid, postname, posttype, postxtra, postgroupid, posttimestamp, posturl from activity INNER JOIN posts where actmetaid=postid AND userid=? and type='apply'", new eventactMapper(), id );
+		if (lst!=null && lst.size()>0)
+		{
+			for (Events events : lst) {
+				Group grp = groupDAO.getshortorgbyid(events.getGroupid());
+				ResActivity act = new ResActivity();
+				act.setEvent(events);
+				act.setGroup(grp);
+				lsta.add(act);
+			}
+			return lsta;
+		}
+		
+		return null;
+	}
 
+	// Status in the event is of activity
+	   private class eventactMapper implements RowMapper<Events> {
+				public Events mapRow(ResultSet rs, int rowNum) throws SQLException {
+					Events event = new Events();
+					Events event2 = new Events();
+	        	try {
+	        	event.setId(rs.getInt("postid"));
+	        	event.setType(rs.getString("posttype"));
+	        	event.setStatus(rs.getShort("status"));
+	        	event.setUrl(rs.getString("posturl"));
+	        	event.setTimestamp(rs.getTimestamp("posttimestamp"));
+	        	event.setName(rs.getString("postname"));
+	        	event.setGroupid(rs.getLong("postgroupid"));
+	        	event.setExtra(rs.getString("postxtra"));
+	        	event2 = eventmetamapper(event);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            return event2;
+	        }
+	    }
+	    
 	
 
 

@@ -81,6 +81,10 @@ public class NotificationDAO {
 		}
 		return lst;
 	}
+	public List<Notification> getNotificationListnologic(long id) {
+		List <Notification> lst1= jdbc.query("SELECT * FROM notification WHERE userid=? order by notid DESC", new notMapper(),id);
+		return lst1;
+	}
 
 	
 

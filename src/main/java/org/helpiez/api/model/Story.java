@@ -7,7 +7,7 @@ public class Story extends Post {
 	private String blogid; // Stored text id which is used to fetch the current text
 	private String excerpt;
 	private String featuredimage; 
-	private String commentstatus; // 1-for comment 2- for comment closed 3- no comment allowed
+	private String commentstatus; // 1-for comment 2- for comment closed 
 	private String postparent; // Optional If story under intership or event
 	private Text blog; // 
 	

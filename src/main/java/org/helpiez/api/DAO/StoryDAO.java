@@ -350,6 +350,19 @@ public class StoryDAO {
 	        }
 	    }
 
+	public List<Story> getStorys(String type, String id) {
+		List<Story> lst = new ArrayList<Story>();
+		if (type.equals("user"))
+		{
+			lst= jdbc.query("select posts.posttimestamp, posts.postid, postname, postgroupid, posttype, poststatus, posturl, postxtra from posts inner join postmeta where postmeta.postid=posts.postid and postmetakey='authorid' and posttype='story' and postmetavalue=? and poststatus!=3 order by posts.posttimestamp desc", new storyMapper(), id);
+		}
+		if(type.equals("group"))
+		{
+			lst= jdbc.query("select * from posts where postgroupid=? and poststatus!=3 order by posttimestamp desc", new storyMapper(), id); 
+		}
+		return lst;
+	}
+
 	
 
 	
