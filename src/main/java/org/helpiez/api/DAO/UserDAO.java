@@ -400,6 +400,7 @@ public class UserDAO {
 		            user.setUrl(rs.getString(8));
 		            user.setTimestamp(rs.getTimestamp(6));
 		            user.setName(rs.getString("username"));
+		            user.setExtra(rs.getString("userxtra"));
 		            user2 = usermetamapper(user);
 					} 
 				catch (ParseException e) {
@@ -419,6 +420,7 @@ public class UserDAO {
 	            user.setUrl(rs.getString(8));
 	            user.setTimestamp(rs.getTimestamp(6));
 	            user.setName(rs.getString("username"));
+	            user.setExtra(rs.getString("userxtra"));
 				return user;
 			}
 		}

@@ -29,8 +29,17 @@ public class User {
 	private String resume;
 	private String fname;  // For new user mandatory 
 	private String lame;
+	private String extra; // Used for group moderation
 	
 	
+	
+	
+	public String getExtra() {
+		return extra;
+	}
+	public void setExtra(String extra) {
+		this.extra = extra;
+	}
 	public String getFname() {
 		return fname;
 	}

@@ -105,7 +105,7 @@ public class FollowController {
     // Event
     @RequestMapping(value="/{id}/volunteering/", method=RequestMethod.GET)
     public List<Post> getvolfollowlist(@PathVariable("id") int id) {	    	
-		return followDAO.getFollowedPost(id, "volunteering"); 
+		return followDAO.getFollowedPost(id, "volunteer"); 
     	
     }
     @RequestMapping(value="/{id}/job/", method=RequestMethod.GET)

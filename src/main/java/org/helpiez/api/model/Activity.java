@@ -11,7 +11,7 @@ public class Activity {
 	private long actmetaid; //
 	private String type; // upvote, DOWNVOTE, APPLY (event), CREATE
 	private short status; // 1-APPLY 2-SHORTLIST, 3-SELECT , 4-REJECT , 5-COMPLETE 6- PARTIAL 7-Started
-	private String extra; // Text id number for answer in case of apply, Text in case of auto generated journey
+	private String extra; // Text id number for answer in case of apply, Text in case of auto generated journey or activity in org
 	private Timestamp timestamp;
 	public long getId() {
 		return id;

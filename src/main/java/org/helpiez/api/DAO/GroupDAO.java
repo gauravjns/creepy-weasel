@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Group;
+import org.helpiez.api.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -430,5 +431,36 @@ public class GroupDAO {
 	            return groupmeta;
 	        }
 	    }
+
+	public List<Notification> getact(long id) {
+		String sql ="Select * from activity inner join user where user.userid=activity.userid and actmeta='group' and actmetaid=411 order by timestamp desc limit 4";
+		List<Notification> ls= jdbc.query(sql, new actnotMapper() );
+		return ls;
+	}
+	 private class actnotMapper implements RowMapper<Notification> {
+			public Notification mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Notification not = new Notification();
+				not.setImage(rs.getString("userimg"));
+				not.setText(rs.getString("actxtra"));
+				not.setTimestamp(rs.getTimestamp("timestamp"));
+				return not;
+	        }
+	    }
+
+	public List<String> groupmod(long id, String type) {
+		String s = jdbc.queryForObject("Select userxtra from user where userid=?", String.class, id);
+        String[] part = s.split(" ");
+        List<String> ls = new ArrayList<String>();
+        for (int i = 0; i < part.length; i++) {
+			Group gr = getshortorgbyid(Integer.parseInt(part[i]));
+			if (gr.getType().equalsIgnoreCase(type))
+			{
+				ls.add(part[i]);
+			}
+		}
+		return ls;
+	}
+	
+	
 
 }

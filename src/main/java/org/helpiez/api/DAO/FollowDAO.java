@@ -45,7 +45,7 @@ public class FollowDAO {
 		for (Follow follow : lstfollow) {
 			if(follow.getType()==1 && follow.getStatus()==1)
 			{
-				lstuser.add(userDAO.getshortuserbyid(follow.getUserid()));
+				lstuser.add(userDAO.getuserbyid(follow.getUserid()));
 			}
 		}
 		return lstuser;
@@ -56,7 +56,7 @@ public class FollowDAO {
 		for (Follow follow : lstfollow) {
 			if(follow.getType()==1 && follow.getStatus()==1)
 			{
-				lstuser.add(userDAO.getshortuserbyid(follow.getMetaid()));
+				lstuser.add(userDAO.getuserbyid(follow.getMetaid()));
 			}
 		}
 		return lstuser;

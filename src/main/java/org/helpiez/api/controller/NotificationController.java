@@ -30,11 +30,11 @@ public class NotificationController {
     }
 	
 	@RequestMapping(value="/user/{id}", method=RequestMethod.GET)
-    public List<Notification> getNots(@PathVariable("id") long id ,@RequestParam(value="max", required=false, defaultValue = "1" ) long max , @RequestParam(value="logic", required=false, defaultValue = "1" ) long logic ) {
+    public List<Notification> getNots(@PathVariable("id") long id ,@RequestParam(value="max", required=false, defaultValue = "1" ) long max ,@RequestParam(value="maxl", required=false, defaultValue = "0" ) long maxl, @RequestParam(value="logic", required=false, defaultValue = "1" ) long logic ) {
 		List<Notification> lst = new ArrayList<Notification>();
 		if (logic==0)
-		{
-			lst = notDAO.getNotificationListnologic(id);
+		{	
+			lst = notDAO.getNotificationListnologic(id, maxl);
 			return lst;
 		}
 		if (max>1)

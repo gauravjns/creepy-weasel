@@ -7,13 +7,31 @@ public class Post {
 	private long id;
 	private String name; // 5000 words Title in blog, internship, event && text in feeds
 	private String type; // intern, volunteer, job, event, story, text, image, video, journey, wallpost, batch
-	private String extra;// 									  		file location 
+	private String extra;// feed id
 	private short status; // 1- created visible only to creator 2- active (visible to all) 3- deleted (only shown to administrator) 4- visible to group 5- application off
 	private long groupid;  // if 0 mean created by user
 	private Timestamp timestamp;
 	private String url;
 	
 	
+	private String feedbody;	//  for feed 
+	private String feedimg;   
+		
+	
+	
+	
+	public String getFeedbody() {
+		return feedbody;
+	}
+	public String getFeedimg() {
+		return feedimg;
+	}
+	public void setFeedbody(String feedbody) {
+		this.feedbody = feedbody;
+	}
+	public void setFeedimg(String feedimg) {
+		this.feedimg = feedimg;
+	}
 	public long getId() {
 		return id;
 	}

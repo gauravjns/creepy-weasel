@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.helpiez.api.DAO.GroupDAO;
 import org.helpiez.api.model.Group;
+import org.helpiez.api.model.Notification;
+import org.helpiez.api.response.ResPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,5 +46,22 @@ public class GroupController {
     	return ls;
     }
   	
+	@RequestMapping(value="/panel/{type}/{id}", method=RequestMethod.GET)
+    public List<ResPanel> panel(@PathVariable("id") long id,@PathVariable("type") String type ) {	 
+		List<ResPanel> lspanel= new ArrayList<ResPanel>();
+		List<String>  org = orgdao.groupmod(id, type);
+		
+		for (String string : org) {
+			ResPanel ls = new ResPanel();
+	  		Group group = orgdao.getOrgbyID(Integer.parseInt(string)); 
+	  		if(group!=null)
+	  			{ls.setGroup(group);}
+	    	List<Notification> notlst= orgdao.getact(Integer.parseInt(string));
+	    	ls.setActvity(notlst);
+			lspanel.add(ls);
+			ls.setHome(2);
+		}
+    	return lspanel;
+    }
 
 }
