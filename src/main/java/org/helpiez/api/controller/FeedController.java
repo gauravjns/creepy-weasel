@@ -2,6 +2,8 @@ package org.helpiez.api.controller;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.helpiez.api.DAO.FeedDAO;
@@ -27,6 +29,18 @@ public class FeedController {
     		@RequestParam(value="max", required=false, defaultValue = "0" ) long max) {	    	
     	
   		List<Feed> lst = feeddao.getFeeds(id, max); 
+  		Collections.sort(lst, new Comparator<Feed>() {
+			public int compare(Feed f1, Feed f2) {
+				if(f1.getFeedid()<f2.getFeedid()){
+
+					return 1;
+				} 
+				else {
+					return -1;
+				}
+			}
+			
+		});
     	return lst;
     
   	}

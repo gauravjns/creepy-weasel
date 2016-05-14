@@ -29,6 +29,15 @@ public class CommentDAO {
 	public int inactCommentbyID(int id, long userid) {
 		try {
 		int i = jdbc.update("UPDATE comment SET comxtra=? where comid=? and userid=?","deleted",id , userid);
+		Comments comment = getCommentbyID(id);
+		if ( i==1)
+		{	
+			if (comment.getCommeta().equals("post"))
+			{
+				jdbc.update("update feed set comment= comment-1 where feedmetaid=?", comment.getCommetaid());
+			}
+			
+		}
 		return i;
 		}
 		catch (Exception e)
@@ -74,8 +83,16 @@ public class CommentDAO {
 	// Insert comment
 	
 	public int save(Comments comment) {
-		return jdbc.update("INSERT INTO comment (comid, userid, commeta, commetaid, comment, comxtra) VALUES ( Default , ? , ?, ?, ?, ?)",comment.getUserid() , comment.getCommeta(),comment.getCommetaid() , comment.getContent(), comment.getExtra());
-		
+		int i =jdbc.update("INSERT INTO comment (comid, userid, commeta, commetaid, comment, comxtra) VALUES ( Default , ? , ?, ?, ?, ?)",comment.getUserid() , comment.getCommeta(),comment.getCommetaid() , comment.getContent(), comment.getExtra());
+		if ( i==1)
+		{	
+			if (comment.getCommeta().equals("post"))
+			{
+				jdbc.update("update feed set comment= comment+1 where feedmetaid=?", comment.getCommetaid());
+			}
+			
+		}
+		return i;
 	}
 	
 	

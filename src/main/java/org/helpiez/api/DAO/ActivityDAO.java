@@ -47,7 +47,15 @@ public class ActivityDAO {
 	public Boolean save(Activity activity) {
 		int i= jdbc.update("INSERT INTO activity (actid, userid, actmeta, actmetaid, type, status, actxtra) VALUES ( Default , ? , ?, ?, ?, ?, ?)",activity.getUserid() , activity.getActmeta(),activity.getActmetaid() , activity.getType(), activity.getStatus(), activity.getExtra());
 		if ( i==1)
-		{
+		{	
+			if (activity.getType().equals("upvote")&& activity.getActmeta().equals("post"))
+			{
+				jdbc.update("update feed set upvote= upvote+1 where feedmetaid=?", activity.getActmetaid());
+			}
+			if (activity.getType().equals("downvote")&& activity.getActmeta().equals("post"))
+			{
+				jdbc.update("update feed set downvote= downvote+1 where feedmetaid=?", activity.getActmetaid());
+			}
 			return true;
 		}
 		else {
@@ -62,8 +70,19 @@ public class ActivityDAO {
 	}
 
 	public int delete(Activity id) {
-		return jdbc.update("DELETE FROM activity WHERE actmeta =? and actmetaid=? and userid=? and type=?",id.getActmeta(), id.getActmetaid(), id.getUserid(), id.getType() );
-		
+		int i = jdbc.update("DELETE FROM activity WHERE actmeta =? and actmetaid=? and userid=? and type=?",id.getActmeta(), id.getActmetaid(), id.getUserid(), id.getType() );
+		if ( i==1)
+		{	
+			if (id.getType().equals("upvote")&& id.getActmeta().equals("post"))
+			{
+				jdbc.update("update feed set upvote= upvote-1 where feedmetaid=?", id.getActmetaid());
+			}
+			if (id.getType().equals("downvote")&& id.getActmeta().equals("post"))
+			{
+				jdbc.update("update feed set downvote= downvote-1 where feedmetaid=?", id.getActmetaid());
+			}
+		}
+		return i;
 	}
 	
 	

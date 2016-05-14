@@ -26,7 +26,7 @@ public class FeedDAO {
 		max++;}
 		List<Feed> lstpostfeedfromgroup = jdbc.query( "SELECT * FROM feed inner join posts on feedmetaid= postid inner join user on feed.userid=user.userid  inner join groups on postgroupid=groupid where feedid<? and postgroupid in (SELECT followmetaid FROM follow WHERE followmeta='group' and userid=?) order by feedid desc limit 6 ",new postfeedmapper(),max, id);		
 		List<Feed> lstpostfeedfromuser = jdbc.query( "SELECT * FROM feed inner join posts on feedmetaid= postid inner join user on feed.userid=user.userid  inner join groups on postgroupid=groupid  where feedid<? and feed.userid in (SELECT followmetaid FROM follow WHERE followmeta='user' and userid=?) order by feedid desc limit 6 ",new postfeedmapper(),max, id);		
-		List<Feed> lstpostfeedglobal = jdbc.query( "SELECT * FROM feed inner join posts on feedmetaid= postid inner join user on feed.userid=user.userid  inner join groups on postgroupid=groupid  where feedid<? and feed.status =3 and (feed.upvote-feed.downvote)>5 or (feed.upvote>10) order by feedid desc limit 7 ",new postfeedmapper(), max);
+		List<Feed> lstpostfeedglobal = jdbc.query( "SELECT * FROM feed inner join posts on feedmetaid= postid inner join user on feed.userid=user.userid  inner join groups on postgroupid=groupid  where feedid<? and feed.status =3 and (feed.upvote-feed.downvote)>5 and (feed.upvote>10) order by feedid desc limit 6 ",new postfeedmapper(), max);
 
 		List<Feed> newList = new ArrayList<Feed>(lstpostfeedfromgroup);
 		newList.addAll(lstpostfeedfromuser);
