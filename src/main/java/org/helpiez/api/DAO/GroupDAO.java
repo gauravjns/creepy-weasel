@@ -433,8 +433,8 @@ public class GroupDAO {
 	    }
 
 	public List<Notification> getact(long id) {
-		String sql ="Select * from activity inner join user where user.userid=activity.userid and actmeta='group' and actmetaid=411 order by timestamp desc limit 4";
-		List<Notification> ls= jdbc.query(sql, new actnotMapper() );
+		String sql ="Select * from activity inner join user where user.userid=activity.userid and actmeta='group' and actmetaid=? order by timestamp desc limit 4";
+		List<Notification> ls= jdbc.query(sql, new actnotMapper(),id );
 		return ls;
 	}
 	 private class actnotMapper implements RowMapper<Notification> {

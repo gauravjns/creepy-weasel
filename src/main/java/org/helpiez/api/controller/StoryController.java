@@ -3,8 +3,11 @@ package org.helpiez.api.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.helpiez.api.DAO.GroupDAO;
 import org.helpiez.api.DAO.StoryDAO;
 import org.helpiez.api.DAO.UserDAO;
+import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Story;
 import org.helpiez.api.model.User;
 import org.helpiez.api.response.ResStory;
@@ -24,6 +27,9 @@ public class StoryController {
 	
 	@Autowired
     private UserDAO userDAO;
+	
+	@Autowired
+    private GroupDAO groupDAO;
 
   	@RequestMapping(value=URI_Constants.GET_STORY_BY_ID, method=RequestMethod.GET)
     public Story getStorybyId(@PathVariable("id") int id) {	    	
@@ -33,12 +39,15 @@ public class StoryController {
   	
   	@RequestMapping(value=URI_Constants.GET_STORY, method=RequestMethod.GET)
     public ResStory getStory(@PathVariable("urlname") String uString) {
+  			
   		ResStory res= new ResStory();
   		Story story = storydao.getStory(uString); 
   		res.setStory(story);
   		User user = userDAO.getshortuserbyid(Integer.parseInt(story.getAuthorid()));
   		res.setAuthor(user);
   		String str= userDAO.getUsermeta(Integer.parseInt(story.getAuthorid()),"about");
+  		Group group =groupDAO.getshortorgbyid(story.getGroupid());
+  		res.setGroup(group);	
   		res.setAuthordesc(str);
     	return res;
     }
@@ -55,6 +64,8 @@ public class StoryController {
   		  		res.setStory(story);
   		  		User user = userDAO.getshortuserbyid(Integer.parseInt(story.getAuthorid()));
   		  		res.setAuthor(user);
+  		  	    Group group =groupDAO.getshortorgbyid(story.getGroupid());
+  		  	    res.setGroup(group);
   		  		lsts.add(res);
 			}
   		}

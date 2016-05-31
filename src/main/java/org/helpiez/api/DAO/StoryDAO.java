@@ -13,6 +13,7 @@ import org.helpiez.api.model.CommonMeta;
 import org.helpiez.api.model.Story;
 import org.helpiez.api.model.Text;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -26,6 +27,9 @@ public class StoryDAO {
 
 	@Autowired 
 	private CommonDAO commonDAO;
+	
+	@Value("${eventflag}")
+    private String prop;
 	
 	public Story getStorybyID(long id)
 	{	
@@ -83,9 +87,9 @@ public class StoryDAO {
 		}
 	}
 	public long createStory(Story story) {
-		
+		try {
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
-		            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl")
+		            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl", "body", "img")
 		            .usingGeneratedKeyColumns("postid");
 		
 		Map<String,Object> insertParameters = new HashMap<String, Object>();
@@ -94,6 +98,8 @@ public class StoryDAO {
 		insertParameters.put("postxtra", story.getExtra());
 		insertParameters.put("poststatus", story.getStatus());
 		insertParameters.put("postgroupid", story.getGroupid());
+		insertParameters.put("body", "");
+		insertParameters.put("img", "");
 		insertParameters.put("posturl", commonDAO.urlgenerator(story.getName(), "post"));
 		
 		Number id = insert.executeAndReturnKey(insertParameters);
@@ -104,6 +110,13 @@ public class StoryDAO {
 		return (Long)id;
 		}
 		else {return 0;}
+		
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error in createStory"+ e);
+			return 0;
+		}
 	}
 	
 	

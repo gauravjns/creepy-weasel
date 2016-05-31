@@ -59,7 +59,7 @@ public class GroupController {
 	    	List<Notification> notlst= orgdao.getact(Integer.parseInt(string));
 	    	ls.setActvity(notlst);
 			lspanel.add(ls);
-			ls.setHome(2);
+			ls.setHome(0);
 		}
     	return lspanel;
     }

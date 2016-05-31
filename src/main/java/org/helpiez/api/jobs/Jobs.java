@@ -12,13 +12,19 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Emailsjobs {
+public class Jobs {
 	
 	
 	@Autowired
 	private EmailDAO emailDAO;
 	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	
+	@Scheduled(fixedRate = 6000)
+    public void flagcommentdelete() {
+        System.out.println("The time is now " + dateFormat.format(new Date()));
+    	
+    }
 
     @Scheduled(fixedRate = 600000)
     public void emailsender() {
