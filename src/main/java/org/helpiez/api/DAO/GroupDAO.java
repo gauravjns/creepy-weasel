@@ -87,10 +87,16 @@ public class GroupDAO {
 		Group org =jdbc.queryForObject("SELECT * FROM groups WHERE groupname=?", new groupMapper(), name);
 		return org;
 	}
-
+	
 	public List<Group> getlistofGrp() {
 		List<Group> ls = new ArrayList<Group>();
 		ls= jdbc.query("SELECT * FROM groups", new groupMapper() );
+		return ls;
+	}
+	
+	public List<Group> getlistofGrp(String type) {
+		List<Group> ls = new ArrayList<Group>();
+		ls= jdbc.query("SELECT * FROM groups where grouptype=?", new groupMapper(), type );
 		return ls;
 	}
 	
@@ -460,7 +466,5 @@ public class GroupDAO {
 		}
 		return ls;
 	}
-	
-	
 
 }

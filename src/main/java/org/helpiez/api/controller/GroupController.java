@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.helpiez.api.DAO.GroupDAO;
+import org.helpiez.api.DAO.UserDAO;
 import org.helpiez.api.model.Group;
 import org.helpiez.api.model.Notification;
+import org.helpiez.api.model.User;
 import org.helpiez.api.response.ResPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,9 @@ public class GroupController {
 	
 	@Autowired
     private GroupDAO orgdao;
+	
+	@Autowired
+    private UserDAO userdao;
 	
 
   	@RequestMapping(value="/{id}", method=RequestMethod.GET)
@@ -64,4 +69,16 @@ public class GroupController {
     	return lspanel;
     }
 
+	@RequestMapping(value="/pluscause/{id}", method=RequestMethod.GET)
+    public List<Group> groupspluscause(@PathVariable("id") long id ) {
+		User user = userdao.getshortuserbyid(id);
+		String[] s= user.getExtra().split(" ");
+		List<Group>  lspanel = orgdao.getlistofGrp("cause");
+    	
+		for (int i = 0; i < s.length; i++) {
+			Group group = orgdao.getOrgbyID(Integer.parseInt(s[i])); 
+	  		lspanel.add(group);
+		}
+		return lspanel;
+    }
 }
