@@ -26,9 +26,9 @@ public class CommentDAO {
 		comments =jdbc.queryForObject("SELECT * FROM comment WHERE comid=?", new commentMapper(), id);
 		return comments;
 	}
-	public int inactCommentbyID(int id, long userid) {
+	public int inactCommentbyID(int id, String extra) {
 		try {
-		int i = jdbc.update("UPDATE comment SET comxtra=? where comid=? and userid=?","deleted",id , userid);
+		int i = jdbc.update("UPDATE comment SET comxtra=? where comid=? ",extra,id );
 		Comments comment = getCommentbyID(id);
 		if ( i==1)
 		{	
@@ -44,6 +44,16 @@ public class CommentDAO {
 		{System.out.println(e);
 		return 0;}
 	}
+	public int inactCommentbycomID(int id) {
+		try {
+		int i = jdbc.update("UPDATE comment SET comxtra=? where comid=? ","deleted",id );
+		return i;
+		}
+		catch (Exception e)
+		{System.out.println(e);
+		return 0;}
+	}
+	
 	
 	public List<Comments> getCommentList(int id, String meta, String order) {
 		List<Comments> lst= null;

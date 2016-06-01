@@ -44,6 +44,10 @@ public class ActivityDAO {
 		
 	}
 
+	public int updatestatus(int status, long actmetaid, String actmeta, String type) {
+		return jdbc.update("UPDATE activity SET status= ? WHERE actmeta =? and actmetaid=? and type=?  ",status,actmeta, actmetaid, type);
+		
+	}
 	public Boolean save(Activity activity) {
 		int i= jdbc.update("INSERT INTO activity (actid, userid, actmeta, actmetaid, type, status, actxtra) VALUES ( Default , ? , ?, ?, ?, ?, ?)",activity.getUserid() , activity.getActmeta(),activity.getActmetaid() , activity.getType(), activity.getStatus(), activity.getExtra());
 		if ( i==1)
@@ -68,6 +72,12 @@ public class ActivityDAO {
 		lstact =jdbc.query("SELECT * FROM activity WHERE actmeta=? and actmetaid=? and type=?", new actMapper(), meta, id, type);
 		return lstact;
 	}
+	
+	public List<Activity> getActivitycount(String meta, int status, String type) {
+		List<Activity> lstact = new ArrayList<Activity>();
+		lstact =jdbc.query("SELECT count(*) as count, actmetaid FROM activity where actmeta=? and type=? and status=? group by actmetaid", new actMappercount(), meta, type, status);
+		return lstact;
+	}
 
 	public int delete(Activity id) {
 		int i = jdbc.update("DELETE FROM activity WHERE actmeta =? and actmetaid=? and userid=? and type=?",id.getActmeta(), id.getActmetaid(), id.getUserid(), id.getType() );
@@ -83,6 +93,15 @@ public class ActivityDAO {
 			}
 		}
 		return i;
+	}
+	
+	private class actMappercount implements RowMapper<Activity> {
+		public Activity mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Activity activity= new Activity();
+	    	activity.setId(rs.getInt("count"));
+	    	activity.setActmetaid(rs.getLong("actmetaid"));
+	    	return activity;
+		}
 	}
 	
 	

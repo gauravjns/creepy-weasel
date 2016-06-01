@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.helpiez.api.DAO.ActivityDAO;
+import org.helpiez.api.DAO.CommentDAO;
 import org.helpiez.api.DAO.EmailDAO;
+import org.helpiez.api.model.Activity;
 import org.helpiez.api.model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,15 +17,34 @@ import org.springframework.stereotype.Component;
 @Component
 public class Jobs {
 	
+
+	@Autowired
+	private ActivityDAO activityDAO;
+	
+	@Autowired
+	private CommentDAO commentDAO;
 	
 	@Autowired
 	private EmailDAO emailDAO;
 	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	
-	@Scheduled(fixedRate = 6000)
+	@Scheduled(fixedRate = 300000)
     public void flagcommentdelete() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
+        System.out.println("flagcommentdelete cron started");
+        List<Activity> lstact = activityDAO.getActivitycount("comment", 0, "flag");
+        for (Activity activity : lstact) {
+        	if(activity.getId()>=3) 
+			{
+        		int j=commentDAO.inactCommentbyID((int)activity.getActmetaid(), "flagged");
+        		if (j==1)
+        		{
+        			int k=activityDAO.updatestatus(-1, activity.getActmetaid(), "comment", "flag");    		
+        		}
+			}
+		}
+        System.out.println("flagcommentdelete cron ended");
+        
     	
     }
 

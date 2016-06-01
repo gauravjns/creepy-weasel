@@ -34,7 +34,7 @@ public class CommentController {
 	
 	@RequestMapping(value=URI_Constants.INACTIVATE_COMMENT_BY_ID, method=RequestMethod.POST)
     public int inactivateCommentbyId(@PathVariable("id") int id, @PathVariable("userid") long userid) {	    	
-  		return	commentDAO.inactCommentbyID(id, userid); 
+  		return	commentDAO.inactCommentbyID(id, "deleted"); 
     	
     }
 	
