@@ -44,19 +44,21 @@ public class EventsDAO {
 		return event;
 	}
 	
-	public Boolean save(Events event) {
+	public String save(Events event) {
 		
 	SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
-	            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl")
+	            .withTableName("posts").usingColumns("postname", "posttype", "postxtra", "poststatus", "postgroupid", "posturl", "body", "img")
 	            .usingGeneratedKeyColumns("postid");
-	
+	String url= commonDAO.urlgenerator(event.getName(), "post"); 
 	Map<String,Object> insertParameters = new HashMap<String, Object>();
 	insertParameters.put("postname", event.getName());
 	insertParameters.put("posttype", event.getType());
 	insertParameters.put("postxtra", event.getExtra());
 	insertParameters.put("poststatus", event.getStatus());
 	insertParameters.put("postgroupid", event.getGroupid());
-	insertParameters.put("posturl", commonDAO.urlgenerator(event.getName(), "post"));
+	insertParameters.put("posturl", url);
+	insertParameters.put("body", "");
+	insertParameters.put("img", "");
 	
 	
 	Number id = insert.executeAndReturnKey(insertParameters);
@@ -64,9 +66,9 @@ public class EventsDAO {
 	int check2= insertupdate(event,getEventbyID(id.intValue()));
 	if (check2==1)
 	{
-	return true;
+	return url;
 	}
-	else {return false;}
+	else {return "";}
 	}
 	
 	public Boolean update(Events event, Events event2) {
@@ -122,6 +124,20 @@ public class EventsDAO {
 			 else{
 				
 				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "commentstatus" , event.getCommentstatus() );
+				
+			 }
+		 }
+		
+		if(event.getAuthorid()!=null)
+		 {
+			 if(event2update.getAuthorid()!=null)
+			 {
+				 jdbc.update("UPDATE postmeta SET postmetavalue=? WHERE postid =? and postmetakey=?",event.getAuthorid(), event2update.getId(), "authorid" );
+					 
+			 }
+			 else{
+				
+				 jdbc.update("INSERT INTO postmeta (postmetaid, postid, postmetakey, postmetavalue) VALUES ( Default , ? , ?, ?)", event2update.getId(), "authorid" , event.getAuthorid() );
 				
 			 }
 		 }
@@ -376,7 +392,10 @@ public class EventsDAO {
 				{
 					event.setQuestion(groupmeta.getValue());
 				}
-				
+				if(key.equals("authorid"))
+				{
+					event.setAuthorid(groupmeta.getValue());
+				}
 	
 			}
 			return event;

@@ -15,8 +15,8 @@ public class Events extends Post
 	private String duration ;
 	private String schedule;
 	private String image;
-	private String virtual;  // FULLTIME  , PARTTIME, VIRTUAL , 
-	private String certificate; // postid for certification
+	private String virtual;  // regular  , parttime, virtual , 
+	private String certificate; // postid for certification, yes
 	private Timestamp deadline;
 	private String question;// (question, type, qmeta) 
 	private String commentstatus; // 1-for comment 2- for comment closed 3- no comment allowed
@@ -24,6 +24,16 @@ public class Events extends Post
 	private Timestamp starttime;
 	private Timestamp endtime;
 	
+	private String authorid;
+	
+	
+	
+	public String getAuthorid() {
+		return authorid;
+	}
+	public void setAuthorid(String authorid) {
+		this.authorid = authorid;
+	}
 	public String getQuestion() {
 		return question;
 	}

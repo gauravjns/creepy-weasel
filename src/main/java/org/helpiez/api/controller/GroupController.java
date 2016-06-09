@@ -44,8 +44,31 @@ public class GroupController {
     	return orgdao.save(org);
     }
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
-    public List<Group> listGroup() {	 
+	@RequestMapping(value="/{type}/{id}", method=RequestMethod.GET)
+    public List<Group> listGroup(@PathVariable("id") long id,@PathVariable("type") String type) {	 
+		
+		User user = userdao.getshortuserbyid(id);
+		String[] s= user.getExtra().split(" ");
+		
+		if (type.equalsIgnoreCase("allpluscause"))
+		{
+			List<Group>  lst = orgdao.getlistofGrp("cause");
+			for (int i = 0; i < s.length; i++) {
+				Group group = orgdao.getOrgbyID(Integer.parseInt(s[i])); 
+		  		lst.add(group);
+			}
+			return lst;
+		}
+		
+		if (type.equalsIgnoreCase("all"))
+		{
+			List<Group>  lst = new ArrayList<Group>();	    	
+			for (int i = 0; i < s.length; i++) {
+				Group group = orgdao.getOrgbyID(Integer.parseInt(s[i])); 
+				lst.add(group);
+			}
+			return lst;
+		}
   		List<Group> ls = new ArrayList<Group>();
   		ls=orgdao.getlistofGrp();	  		
     	return ls;
@@ -67,18 +90,5 @@ public class GroupController {
 			ls.setHome(0);
 		}
     	return lspanel;
-    }
-
-	@RequestMapping(value="/pluscause/{id}", method=RequestMethod.GET)
-    public List<Group> groupspluscause(@PathVariable("id") long id ) {
-		User user = userdao.getshortuserbyid(id);
-		String[] s= user.getExtra().split(" ");
-		List<Group>  lspanel = orgdao.getlistofGrp("cause");
-    	
-		for (int i = 0; i < s.length; i++) {
-			Group group = orgdao.getOrgbyID(Integer.parseInt(s[i])); 
-	  		lspanel.add(group);
-		}
-		return lspanel;
     }
 }

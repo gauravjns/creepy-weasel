@@ -3,8 +3,11 @@ package org.helpiez.api.controller;
 import java.util.List;
 
 import org.helpiez.api.DAO.EventsDAO;
+import org.helpiez.api.DAO.GroupDAO;
+import org.helpiez.api.DAO.UserDAO;
 import org.helpiez.api.model.Events;
 import org.helpiez.api.response.ResActivity;
+import org.helpiez.api.response.ResEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +23,24 @@ public class EventController {
 	@Autowired
     private EventsDAO eventdao;
 	
+	@Autowired
+    private UserDAO userDAO;
+	
+	@Autowired
+    private GroupDAO groupDAO;
 
   	@RequestMapping(value=URI_Constants.GET_EVENT_BY_ID, method=RequestMethod.GET)
     public Events getEventbyId(@PathVariable("id") long id) {	    	
   		Events event = eventdao.getEventbyID(id); 
+    	return event;
+    }
+  	
+  	@RequestMapping(value=URI_Constants.GET_CUSTOM_EVENT_BY_NAME, method=RequestMethod.GET)
+  	public ResEvents getCustumEvent(@PathVariable("urlname") String urlname ) {	    	
+  		ResEvents event = new ResEvents();
+  		event.setEvents(eventdao.getEvent(urlname));
+  		event.setAuthor(userDAO.getshortuserbyid(Integer.parseInt(event.getEvents().getAuthorid())));
+  		event.setGroup(groupDAO.getshortorgbyid(event.getEvents().getGroupid()));
     	return event;
     }
   	
@@ -34,7 +51,7 @@ public class EventController {
     }
   	
 	@RequestMapping(value=URI_Constants.INSERT_EVENT, method=RequestMethod.POST)
-    public Boolean insertEvent(@RequestBody Events event) {	 
+    public String insertEvent(@RequestBody Events event) {	 
     	return eventdao.save(event);
     }
 	
