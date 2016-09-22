@@ -1,9 +1,7 @@
 package org.helpiez.api.response;
 
-import org.helpiez.api.model.Activity;
 import org.helpiez.api.model.Events;
 import org.helpiez.api.model.Group;
-import org.helpiez.api.model.Post;
 
 public class ResActivity {
 	

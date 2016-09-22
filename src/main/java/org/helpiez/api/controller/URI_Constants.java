@@ -31,6 +31,7 @@ public class URI_Constants {
 	
 	// EVENT Controller , intern , job , volunteering
 	public static final String GET_EVENT_BY_ID="/events/{id}";
+	public static final String GET_CUSTOM_EVENT_BY_ID = "/events/full/{id}";
 	public static final String GET_CUSTOM_EVENT_BY_NAME="/events/custom/{urlname}";
 	public static final String UPDATE_EVENT="/events/";
 	public static final String INSERT_EVENT="/events/";

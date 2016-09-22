@@ -35,6 +35,15 @@ public class EventController {
     	return event;
     }
   	
+  	@RequestMapping(value=URI_Constants.GET_CUSTOM_EVENT_BY_ID, method=RequestMethod.GET)
+    public ResEvents getCustomEventbyId(@PathVariable("id") long id) {	    	
+  		ResEvents event = new ResEvents();
+  		event.setEvents(eventdao.getEventbyID(id));
+  		event.setAuthor(userDAO.getshortuserbyid(Integer.parseInt(event.getEvents().getAuthorid())));
+  		event.setGroup(groupDAO.getshortorgbyid(event.getEvents().getGroupid()));
+    	return event;  		
+    }
+  	
   	@RequestMapping(value=URI_Constants.GET_CUSTOM_EVENT_BY_NAME, method=RequestMethod.GET)
   	public ResEvents getCustumEvent(@PathVariable("urlname") String urlname ) {	    	
   		ResEvents event = new ResEvents();
